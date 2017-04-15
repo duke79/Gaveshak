@@ -17,4 +17,4 @@ foreach( OUTPUTCONFIG ${CMAKE_CONFIGURATION_TYPES} )
 endforeach( OUTPUTCONFIG CMAKE_CONFIGURATION_TYPES )
 
 # Add all the Frameworks
-add_subdirectory (MultiThreadingFW)
+add_subdirectory (src)
