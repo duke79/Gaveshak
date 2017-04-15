@@ -10,4 +10,5 @@ include_directories("${PROJECT_SOURCE_DIR}")
 
 add_executable(Gaveshak main.cpp)
 
+# Frameworks
 add_subdirectory (MyFramework)
