@@ -307,3 +307,4 @@ __pycache__/
 # Ignore more Visual Studio files
 *.vcxproj
 *.sln
+*.vcxproj.filters

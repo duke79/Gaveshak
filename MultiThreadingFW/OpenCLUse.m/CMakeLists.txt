@@ -8,4 +8,4 @@ set(LIBRARY_OUTPUT_PATH ${CMAKE_BINARY_DIR})
 # The following folder will be included
 include_directories("${PROJECT_SOURCE_DIR}")
 
-add_executable(OpenCL_Use main.cpp)
+add_executable(OpenCLUse main.cpp)

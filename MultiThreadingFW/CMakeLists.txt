@@ -1,2 +1,2 @@
 #Add all the modules
-add_subdirectory (OpenCL_Use.m)
+add_subdirectory (OpenCLUse.m)
