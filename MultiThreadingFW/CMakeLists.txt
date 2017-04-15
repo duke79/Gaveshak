@@ -1,1 +1,2 @@
-add_subdirectory (MyMod.m)
+#Add all the modules
+add_subdirectory (OpenCL_Use.m)

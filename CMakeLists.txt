@@ -10,5 +10,6 @@ include_directories("${PROJECT_SOURCE_DIR}")
 
 add_executable(Gaveshak main.cpp)
 
-# Frameworks
-add_subdirectory (MyFramework)
+# Add all the Frameworks
+add_subdirectory (OpenCL)
+add_subdirectory (MultiThreadingFW)
