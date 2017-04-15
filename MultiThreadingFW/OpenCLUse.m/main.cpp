@@ -7,6 +7,9 @@ using namespace std;
 
 int main(int argc, char *argv[])
 {
-	cout << "Hello World";
+	int a;
+	cin >> a;
+	cout << "Hello World: "<< a;
+	cin >> a;
 	return 0;
 }
