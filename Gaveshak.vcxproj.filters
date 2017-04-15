@@ -1,16 +1,16 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <Project ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="D:\Repo\gaveshak\main.cpp">
+    <ClCompile Include="D:\Dev\Repo\gaveshak\main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <CustomBuild Include="D:\Repo\gaveshak\CMakeLists.txt" />
+    <CustomBuild Include="D:\Dev\Repo\gaveshak\CMakeLists.txt" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Source Files">
-      <UniqueIdentifier>{AEEEB126-E1F1-36C4-8CEB-A9EBDAAB8E99}</UniqueIdentifier>
+      <UniqueIdentifier>{54E2E62D-BF5C-3547-B2DD-31BA55B6C287}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

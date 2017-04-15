@@ -19,7 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGUID>{5316C150-D47A-349D-8E3C-89ED3C1021CF}</ProjectGUID>
+    <ProjectGUID>{22263A12-F725-3C1C-B017-F75B77429B8E}</ProjectGUID>
     <WindowsTargetPlatformVersion>10.0.10586.0</WindowsTargetPlatformVersion>
     <Keyword>Win32Proj</Keyword>
     <Platform>Win32</Platform>
@@ -60,25 +60,25 @@
   <PropertyGroup Label="UserMacros" />
     <PropertyGroup>
       <_ProjectFileVersion>10.0.20506.1</_ProjectFileVersion>
-      <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">D:\Repo\gaveshak\bin\Debug\</OutDir>
+      <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">D:\Dev\Repo\gaveshak\bin\Debug\</OutDir>
       <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">MyMod.dir\Debug\</IntDir>
       <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">MyMod</TargetName>
       <TargetExt Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.exe</TargetExt>
       <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</LinkIncremental>
       <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</GenerateManifest>
-      <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">D:\Repo\gaveshak\bin\Release\</OutDir>
+      <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">D:\Dev\Repo\gaveshak\bin\Release\</OutDir>
       <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">MyMod.dir\Release\</IntDir>
       <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">MyMod</TargetName>
       <TargetExt Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.exe</TargetExt>
       <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</LinkIncremental>
       <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</GenerateManifest>
-      <OutDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">D:\Repo\gaveshak\bin\MinSizeRel\</OutDir>
+      <OutDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">D:\Dev\Repo\gaveshak\bin\MinSizeRel\</OutDir>
       <IntDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">MyMod.dir\MinSizeRel\</IntDir>
       <TargetName Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">MyMod</TargetName>
       <TargetExt Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">.exe</TargetExt>
       <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">false</LinkIncremental>
       <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">true</GenerateManifest>
-      <OutDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">D:\Repo\gaveshak\bin\RelWithDebInfo\</OutDir>
+      <OutDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">D:\Dev\Repo\gaveshak\bin\RelWithDebInfo\</OutDir>
       <IntDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">MyMod.dir\RelWithDebInfo\</IntDir>
       <TargetName Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">MyMod</TargetName>
       <TargetExt Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">.exe</TargetExt>
@@ -87,7 +87,7 @@
     </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
-      <AdditionalIncludeDirectories>D:\Repo\gaveshak;D:\Repo\gaveshak\MyFramework\MyMod.m;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\Dev\Repo\gaveshak;D:\Dev\Repo\gaveshak\MyFramework\MyMod.m;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AssemblerListingLocation>Debug/</AssemblerListingLocation>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <CompileAs>CompileAsCpp</CompileAs>
@@ -104,10 +104,10 @@
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>WIN32;_WINDOWS;CMAKE_INTDIR=\"Debug\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>D:\Repo\gaveshak;D:\Repo\gaveshak\MyFramework\MyMod.m;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\Dev\Repo\gaveshak;D:\Dev\Repo\gaveshak\MyFramework\MyMod.m;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Midl>
-      <AdditionalIncludeDirectories>D:\Repo\gaveshak;D:\Repo\gaveshak\MyFramework\MyMod.m;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\Dev\Repo\gaveshak;D:\Dev\Repo\gaveshak\MyFramework\MyMod.m;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
       <HeaderFileName>%(Filename).h</HeaderFileName>
       <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
@@ -120,8 +120,8 @@
       <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>Debug</GenerateDebugInformation>
       <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
-      <ImportLibrary>D:/Repo/gaveshak/bin/Debug/MyMod.lib</ImportLibrary>
-      <ProgramDataBaseFile>D:/Repo/gaveshak/bin/Debug/MyMod.pdb</ProgramDataBaseFile>
+      <ImportLibrary>D:/Dev/Repo/gaveshak/bin/Debug/MyMod.lib</ImportLibrary>
+      <ProgramDataBaseFile>D:/Dev/Repo/gaveshak/bin/Debug/MyMod.pdb</ProgramDataBaseFile>
       <SubSystem>Console</SubSystem>
       <Version></Version>
     </Link>
@@ -131,7 +131,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
-      <AdditionalIncludeDirectories>D:\Repo\gaveshak;D:\Repo\gaveshak\MyFramework\MyMod.m;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\Dev\Repo\gaveshak;D:\Dev\Repo\gaveshak\MyFramework\MyMod.m;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AssemblerListingLocation>Release/</AssemblerListingLocation>
       <CompileAs>CompileAsCpp</CompileAs>
       <ExceptionHandling>Sync</ExceptionHandling>
@@ -147,10 +147,10 @@
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;CMAKE_INTDIR=\"Release\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>D:\Repo\gaveshak;D:\Repo\gaveshak\MyFramework\MyMod.m;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\Dev\Repo\gaveshak;D:\Dev\Repo\gaveshak\MyFramework\MyMod.m;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Midl>
-      <AdditionalIncludeDirectories>D:\Repo\gaveshak;D:\Repo\gaveshak\MyFramework\MyMod.m;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\Dev\Repo\gaveshak;D:\Dev\Repo\gaveshak\MyFramework\MyMod.m;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
       <HeaderFileName>%(Filename).h</HeaderFileName>
       <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
@@ -163,8 +163,8 @@
       <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>No</GenerateDebugInformation>
       <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
-      <ImportLibrary>D:/Repo/gaveshak/bin/Release/MyMod.lib</ImportLibrary>
-      <ProgramDataBaseFile>D:/Repo/gaveshak/bin/Release/MyMod.pdb</ProgramDataBaseFile>
+      <ImportLibrary>D:/Dev/Repo/gaveshak/bin/Release/MyMod.lib</ImportLibrary>
+      <ProgramDataBaseFile>D:/Dev/Repo/gaveshak/bin/Release/MyMod.pdb</ProgramDataBaseFile>
       <SubSystem>Console</SubSystem>
       <Version></Version>
     </Link>
@@ -174,7 +174,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">
     <ClCompile>
-      <AdditionalIncludeDirectories>D:\Repo\gaveshak;D:\Repo\gaveshak\MyFramework\MyMod.m;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\Dev\Repo\gaveshak;D:\Dev\Repo\gaveshak\MyFramework\MyMod.m;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AssemblerListingLocation>MinSizeRel/</AssemblerListingLocation>
       <CompileAs>CompileAsCpp</CompileAs>
       <ExceptionHandling>Sync</ExceptionHandling>
@@ -190,10 +190,10 @@
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;CMAKE_INTDIR=\"MinSizeRel\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>D:\Repo\gaveshak;D:\Repo\gaveshak\MyFramework\MyMod.m;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\Dev\Repo\gaveshak;D:\Dev\Repo\gaveshak\MyFramework\MyMod.m;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Midl>
-      <AdditionalIncludeDirectories>D:\Repo\gaveshak;D:\Repo\gaveshak\MyFramework\MyMod.m;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\Dev\Repo\gaveshak;D:\Dev\Repo\gaveshak\MyFramework\MyMod.m;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
       <HeaderFileName>%(Filename).h</HeaderFileName>
       <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
@@ -206,8 +206,8 @@
       <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>No</GenerateDebugInformation>
       <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
-      <ImportLibrary>D:/Repo/gaveshak/bin/MinSizeRel/MyMod.lib</ImportLibrary>
-      <ProgramDataBaseFile>D:/Repo/gaveshak/bin/MinSizeRel/MyMod.pdb</ProgramDataBaseFile>
+      <ImportLibrary>D:/Dev/Repo/gaveshak/bin/MinSizeRel/MyMod.lib</ImportLibrary>
+      <ProgramDataBaseFile>D:/Dev/Repo/gaveshak/bin/MinSizeRel/MyMod.pdb</ProgramDataBaseFile>
       <SubSystem>Console</SubSystem>
       <Version></Version>
     </Link>
@@ -217,7 +217,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">
     <ClCompile>
-      <AdditionalIncludeDirectories>D:\Repo\gaveshak;D:\Repo\gaveshak\MyFramework\MyMod.m;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\Dev\Repo\gaveshak;D:\Dev\Repo\gaveshak\MyFramework\MyMod.m;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AssemblerListingLocation>RelWithDebInfo/</AssemblerListingLocation>
       <CompileAs>CompileAsCpp</CompileAs>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
@@ -233,10 +233,10 @@
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;CMAKE_INTDIR=\"RelWithDebInfo\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>D:\Repo\gaveshak;D:\Repo\gaveshak\MyFramework\MyMod.m;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\Dev\Repo\gaveshak;D:\Dev\Repo\gaveshak\MyFramework\MyMod.m;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Midl>
-      <AdditionalIncludeDirectories>D:\Repo\gaveshak;D:\Repo\gaveshak\MyFramework\MyMod.m;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\Dev\Repo\gaveshak;D:\Dev\Repo\gaveshak\MyFramework\MyMod.m;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
       <HeaderFileName>%(Filename).h</HeaderFileName>
       <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
@@ -249,8 +249,8 @@
       <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>Debug</GenerateDebugInformation>
       <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
-      <ImportLibrary>D:/Repo/gaveshak/bin/RelWithDebInfo/MyMod.lib</ImportLibrary>
-      <ProgramDataBaseFile>D:/Repo/gaveshak/bin/RelWithDebInfo/MyMod.pdb</ProgramDataBaseFile>
+      <ImportLibrary>D:/Dev/Repo/gaveshak/bin/RelWithDebInfo/MyMod.lib</ImportLibrary>
+      <ProgramDataBaseFile>D:/Dev/Repo/gaveshak/bin/RelWithDebInfo/MyMod.pdb</ProgramDataBaseFile>
       <SubSystem>Console</SubSystem>
       <Version></Version>
     </Link>
@@ -259,10 +259,10 @@
     </ProjectReference>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <CustomBuild Include="D:\Repo\gaveshak\MyFramework\MyMod.m\CMakeLists.txt">
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Building Custom Rule D:/Repo/gaveshak/MyFramework/MyMod.m/CMakeLists.txt</Message>
+    <CustomBuild Include="D:\Dev\Repo\gaveshak\MyFramework\MyMod.m\CMakeLists.txt">
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Building Custom Rule D:/Dev/Repo/gaveshak/MyFramework/MyMod.m/CMakeLists.txt</Message>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">setlocal
-"C:\Program Files\CMake\bin\cmake.exe" -HD:/Repo/gaveshak -BD:/Repo/gaveshak --check-stamp-file D:/Repo/gaveshak/MyFramework/MyMod.m/CMakeFiles/generate.stamp
+"C:\Program Files\CMake\bin\cmake.exe" -HD:/Dev/Repo/gaveshak -BD:/Dev/Repo/gaveshak --check-stamp-file D:/Dev/Repo/gaveshak/MyFramework/MyMod.m/CMakeFiles/generate.stamp
 if %errorlevel% neq 0 goto :cmEnd
 :cmEnd
 endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
@@ -270,12 +270,12 @@ endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
 exit /b %1
 :cmDone
 if %errorlevel% neq 0 goto :VCEnd</Command>
-      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">D:/Repo/gaveshak/MyFramework/MyMod.m/CMakeLists.txt;D:\Repo\gaveshak\MyFramework\MyMod.m\CMakeLists.txt;D:\Repo\gaveshak\MyFramework\MyMod.m\CMakeLists.txt;%(AdditionalInputs)</AdditionalInputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">D:\Repo\gaveshak\MyFramework\MyMod.m\CMakeFiles\generate.stamp</Outputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">D:/Dev/Repo/gaveshak/MyFramework/MyMod.m/CMakeLists.txt;D:\Dev\Repo\gaveshak\MyFramework\MyMod.m\CMakeLists.txt;D:\Dev\Repo\gaveshak\MyFramework\MyMod.m\CMakeLists.txt;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">D:\Dev\Repo\gaveshak\MyFramework\MyMod.m\CMakeFiles\generate.stamp</Outputs>
       <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</LinkObjects>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Building Custom Rule D:/Repo/gaveshak/MyFramework/MyMod.m/CMakeLists.txt</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Building Custom Rule D:/Dev/Repo/gaveshak/MyFramework/MyMod.m/CMakeLists.txt</Message>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">setlocal
-"C:\Program Files\CMake\bin\cmake.exe" -HD:/Repo/gaveshak -BD:/Repo/gaveshak --check-stamp-file D:/Repo/gaveshak/MyFramework/MyMod.m/CMakeFiles/generate.stamp
+"C:\Program Files\CMake\bin\cmake.exe" -HD:/Dev/Repo/gaveshak -BD:/Dev/Repo/gaveshak --check-stamp-file D:/Dev/Repo/gaveshak/MyFramework/MyMod.m/CMakeFiles/generate.stamp
 if %errorlevel% neq 0 goto :cmEnd
 :cmEnd
 endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
@@ -283,12 +283,12 @@ endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
 exit /b %1
 :cmDone
 if %errorlevel% neq 0 goto :VCEnd</Command>
-      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">D:/Repo/gaveshak/MyFramework/MyMod.m/CMakeLists.txt;D:\Repo\gaveshak\MyFramework\MyMod.m\CMakeLists.txt;D:\Repo\gaveshak\MyFramework\MyMod.m\CMakeLists.txt;%(AdditionalInputs)</AdditionalInputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">D:\Repo\gaveshak\MyFramework\MyMod.m\CMakeFiles\generate.stamp</Outputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">D:/Dev/Repo/gaveshak/MyFramework/MyMod.m/CMakeLists.txt;D:\Dev\Repo\gaveshak\MyFramework\MyMod.m\CMakeLists.txt;D:\Dev\Repo\gaveshak\MyFramework\MyMod.m\CMakeLists.txt;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">D:\Dev\Repo\gaveshak\MyFramework\MyMod.m\CMakeFiles\generate.stamp</Outputs>
       <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</LinkObjects>
-      <Message Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">Building Custom Rule D:/Repo/gaveshak/MyFramework/MyMod.m/CMakeLists.txt</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">Building Custom Rule D:/Dev/Repo/gaveshak/MyFramework/MyMod.m/CMakeLists.txt</Message>
       <Command Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">setlocal
-"C:\Program Files\CMake\bin\cmake.exe" -HD:/Repo/gaveshak -BD:/Repo/gaveshak --check-stamp-file D:/Repo/gaveshak/MyFramework/MyMod.m/CMakeFiles/generate.stamp
+"C:\Program Files\CMake\bin\cmake.exe" -HD:/Dev/Repo/gaveshak -BD:/Dev/Repo/gaveshak --check-stamp-file D:/Dev/Repo/gaveshak/MyFramework/MyMod.m/CMakeFiles/generate.stamp
 if %errorlevel% neq 0 goto :cmEnd
 :cmEnd
 endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
@@ -296,12 +296,12 @@ endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
 exit /b %1
 :cmDone
 if %errorlevel% neq 0 goto :VCEnd</Command>
-      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">D:/Repo/gaveshak/MyFramework/MyMod.m/CMakeLists.txt;D:\Repo\gaveshak\MyFramework\MyMod.m\CMakeLists.txt;D:\Repo\gaveshak\MyFramework\MyMod.m\CMakeLists.txt;%(AdditionalInputs)</AdditionalInputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">D:\Repo\gaveshak\MyFramework\MyMod.m\CMakeFiles\generate.stamp</Outputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">D:/Dev/Repo/gaveshak/MyFramework/MyMod.m/CMakeLists.txt;D:\Dev\Repo\gaveshak\MyFramework\MyMod.m\CMakeLists.txt;D:\Dev\Repo\gaveshak\MyFramework\MyMod.m\CMakeLists.txt;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">D:\Dev\Repo\gaveshak\MyFramework\MyMod.m\CMakeFiles\generate.stamp</Outputs>
       <LinkObjects Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">false</LinkObjects>
-      <Message Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">Building Custom Rule D:/Repo/gaveshak/MyFramework/MyMod.m/CMakeLists.txt</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">Building Custom Rule D:/Dev/Repo/gaveshak/MyFramework/MyMod.m/CMakeLists.txt</Message>
       <Command Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">setlocal
-"C:\Program Files\CMake\bin\cmake.exe" -HD:/Repo/gaveshak -BD:/Repo/gaveshak --check-stamp-file D:/Repo/gaveshak/MyFramework/MyMod.m/CMakeFiles/generate.stamp
+"C:\Program Files\CMake\bin\cmake.exe" -HD:/Dev/Repo/gaveshak -BD:/Dev/Repo/gaveshak --check-stamp-file D:/Dev/Repo/gaveshak/MyFramework/MyMod.m/CMakeFiles/generate.stamp
 if %errorlevel% neq 0 goto :cmEnd
 :cmEnd
 endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
@@ -309,17 +309,17 @@ endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
 exit /b %1
 :cmDone
 if %errorlevel% neq 0 goto :VCEnd</Command>
-      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">D:/Repo/gaveshak/MyFramework/MyMod.m/CMakeLists.txt;D:\Repo\gaveshak\MyFramework\MyMod.m\CMakeLists.txt;D:\Repo\gaveshak\MyFramework\MyMod.m\CMakeLists.txt;%(AdditionalInputs)</AdditionalInputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">D:\Repo\gaveshak\MyFramework\MyMod.m\CMakeFiles\generate.stamp</Outputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">D:/Dev/Repo/gaveshak/MyFramework/MyMod.m/CMakeLists.txt;D:\Dev\Repo\gaveshak\MyFramework\MyMod.m\CMakeLists.txt;D:\Dev\Repo\gaveshak\MyFramework\MyMod.m\CMakeLists.txt;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">D:\Dev\Repo\gaveshak\MyFramework\MyMod.m\CMakeFiles\generate.stamp</Outputs>
       <LinkObjects Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">false</LinkObjects>
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="D:\Repo\gaveshak\MyFramework\MyMod.m\main.cpp"  />
+    <ClCompile Include="D:\Dev\Repo\gaveshak\MyFramework\MyMod.m\main.cpp"  />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="D:\Repo\gaveshak\ZERO_CHECK.vcxproj">
-      <Project>DECEB262-39C7-384C-BDCA-5E7039516EDC</Project>
+    <ProjectReference Include="D:\Dev\Repo\gaveshak\ZERO_CHECK.vcxproj">
+      <Project>59721718-A7D6-3898-97E1-9EEABEABC046</Project>
       <Name>ZERO_CHECK</Name>
     </ProjectReference>
   </ItemGroup>
