@@ -302,3 +302,8 @@ __pycache__/
 *.xsd.cs
 
 # End of https://www.gitignore.io/api/cmake,visualstudio
+
+
+# Ignore more Visual Studio files
+*.vcxproj
+*.sln
