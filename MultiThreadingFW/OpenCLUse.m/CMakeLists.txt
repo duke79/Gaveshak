@@ -12,5 +12,5 @@ include_directories("${PROJECT_SOURCE_DIR}")
 add_executable(OpenCLUse main.cpp)
 
 # Dependency : OpenCL
-include_directories(${CMAKE_SOURCE_DIR}/OpenCL/headers)
-TARGET_LINK_LIBRARIES(OpenCLUse ${CMAKE_SOURCE_DIR}/lib/pthreadVC2)
+include_directories(${CMAKE_SOURCE_DIR}/lib/OpenCL/headers)
+TARGET_LINK_LIBRARIES(OpenCLUse ${CMAKE_SOURCE_DIR}/lib/OpenCL/bin/pthreadVC2)
