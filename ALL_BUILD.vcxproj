@@ -172,6 +172,10 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
       <Project>081CB5A9-C934-3569-8432-73AAD4089126</Project>
       <Name>Gaveshak</Name>
     </ProjectReference>
+    <ProjectReference Include="D:\Repo\gaveshak\MyFramework\MyMod.m\MyMod.vcxproj">
+      <Project>5316C150-D47A-349D-8E3C-89ED3C1021CF</Project>
+      <Name>MyMod</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
