@@ -1,3 +1,5 @@
+#ifndef Gaveshak_H
+#define Gaveshak_H
 class Gaveshak
 {
 public:
@@ -7,3 +9,4 @@ public:
 	void HandleArguments();
 
 };
+#endif

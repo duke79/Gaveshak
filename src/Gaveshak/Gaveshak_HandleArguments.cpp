@@ -6,7 +6,7 @@
 
 #include <Gaveshak.h>
 
-int main(int argc, char* argv[]) {
-	Gaveshak * pGaveshak = new Gaveshak();
-	pGaveshak->HandleArguments();
+void Gaveshak::HandleArguments()
+{
+
 }
