@@ -309,3 +309,4 @@ __pycache__/
 *.sln
 *.vcxproj.filters
 build/*
+lib/boost/*
