@@ -7,6 +7,7 @@
 #include <Gaveshak.h>
 
 #include "boost/program_options.hpp"
+#include "boost/foreach.hpp"
 #include "iostream"
 using namespace std;
 using namespace boost::program_options;
@@ -16,23 +17,30 @@ void Gaveshak::HandleArguments(int argc, char* argv[])
 	// Declare the supported options.
 	options_description desc("Allowed options");
 	desc.add_options()
-		("help", "produce help message")
-		("compression", value<int>(), "set compression level")
+		("help", "Produce help message")
+		("crawl", value<vector<string>>(), "Crawl the given pages")
 		;
 
 	variables_map vm;
 	store(parse_command_line(argc, argv, desc), vm);
 	notify(vm);
 
+	/*
+	* Help
+	*/
 	if (vm.count("help")) {
 		cout << desc << "\n";		
 	}
 
-	if (vm.count("compression")) {
-		cout << "Compression level was set to "
-			<< vm["compression"].as<int>() << ".\n";
-	}
-	else {
-		cout << "Compression level was not set.\n";
-	}
+	/*
+	* Crawl the given pages
+	*/
+	if (vm.count("crawl")) {
+		vector<string> pages = vm["crawl"].as< vector<string> >();
+		cout << "Crawling the following pages : \n";
+		BOOST_FOREACH(string page, pages)
+		{
+			cout << page << endl;
+		}		
+	}	
 }
