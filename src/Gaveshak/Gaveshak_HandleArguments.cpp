@@ -6,17 +6,33 @@
 
 #include <Gaveshak.h>
 
-#include "boost/lambda/lambda.hpp"
+#include "boost/program_options.hpp"
 #include "iostream"
+using namespace std;
+using namespace boost::program_options;
 
-void Gaveshak::HandleArguments()
-{
-	using namespace boost::lambda;
-	typedef std::istream_iterator<int> in;
+void Gaveshak::HandleArguments(int argc, char* argv[])
+{	
+	// Declare the supported options.
+	options_description desc("Allowed options");
+	desc.add_options()
+		("help", "produce help message")
+		("compression", value<int>(), "set compression level")
+		;
 
-	std::for_each(
-		in(std::cin), in(), std::cout << (_1 * 3) << " ");
+	variables_map vm;
+	store(parse_command_line(argc, argv, desc), vm);
+	notify(vm);
 
-	char c;
-	std::cin >> c;
+	if (vm.count("help")) {
+		cout << desc << "\n";		
+	}
+
+	if (vm.count("compression")) {
+		cout << "Compression level was set to "
+			<< vm["compression"].as<int>() << ".\n";
+	}
+	else {
+		cout << "Compression level was not set.\n";
+	}
 }
