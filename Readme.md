@@ -1,6 +1,7 @@
 ## Build & Install
 ### Dependencies
-#### Boost
+
+#### Boost *(1.64.0)*
 * Install boost to lib/boost
  https://sourceforge.net/projects/boost/files/boost-binaries/
 * Run boostrap.bat
@@ -8,6 +9,10 @@
 
 #### CMake 
 * Download and install **CMake** (minimum version 2.6)
+
+#### cURL *(7.18.0 nossl win32 msvc)*
+* Download from https://curl.haxx.se/download/trash/libcurl-7.18.0-win32-msvc.zip
+* Put it in lib/libcURL
 
 ### Build
 * Create a directory named **build** (or any other name) in the root

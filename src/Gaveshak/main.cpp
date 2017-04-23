@@ -8,6 +8,6 @@
 
 int main(int argc, char* argv[]) {
 	Gaveshak * pGaveshak = new Gaveshak();
-	pGaveshak->HandleArguments(argc,argv);	
+	pGaveshak->ParseArguments(argc,argv);	
 	return 0;
 }

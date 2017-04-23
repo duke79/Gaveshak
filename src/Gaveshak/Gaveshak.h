@@ -6,7 +6,7 @@ public:
 	Gaveshak();
 	~Gaveshak();
 
-	void HandleArguments(int argc, char* argv[]);
+	void ParseArguments(int argc, char* argv[]);
 
 };
 #endif
