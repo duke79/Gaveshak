@@ -20,7 +20,7 @@
 * Run `cmake ..` (use *-G* option to force *'Visual Studio 14'* if required) **
 * Open *Project.sln* with Visual Studio
 * Set *Gaveshak* as Startup Project
-* Hit F5 (alternatively 
+* Hit F5
 
 ** *Alternatively GNU make can also be used to build directly from command line. 
 But somehow copy command doesn't work, so all the required libraries need to be manually copied to Root/bin first.*

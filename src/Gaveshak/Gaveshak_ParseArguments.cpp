@@ -21,6 +21,7 @@ void Gaveshak::ParseArguments(int argc, char* argv[])
 	desc.add_options()
 		("help", "Produce help message")
 		("crawl", value<vector<string>>(), "Crawl the given pages")
+		("google",value<string>(),"Google something")
 		;
 
 	variables_map vm;
@@ -54,11 +55,23 @@ void Gaveshak::ParseArguments(int argc, char* argv[])
 		UserAgent agent;
 		BOOST_FOREACH(string page, pages)
 		{				
-			agent.Curl();
-			cout << page << endl;
+			cout << "URL: " << page << endl << endl;
+			char* pPageContent = agent.GetPage(page);
+			cout << pPageContent;
 		}		
 		
 		cout << "Press any key to exit...";
 		cin.get(); //wait
 	}	
+
+	/*
+	* @use : --google <query>
+	* @desc: Google the given query
+	*/
+	if (vm.count("google"))
+	{
+		string query = vm["google"].as<string>();
+		UserAgent agent;
+		cout << agent.Google(query);
+	}
 }
