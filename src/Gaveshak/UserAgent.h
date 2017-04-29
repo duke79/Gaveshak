@@ -1,37 +1,74 @@
 #ifndef UserAgent_H
 #define UserAgent_H
+
 #include "curl/curl.h"
+#include <vector>
+
 #include "iostream"
 using namespace std;
 
-// Define our struct for accepting libcURL's output
+/**
+@brief Struct for accepting libcURL's output
+
+@author Pulkit Singh
+@date April 2017
+*/
 struct BufferStruct
 {
 	char * buffer;
 	size_t size;
 };
 
+/** 
+@brief Browser interface to interact with internet.
+
+Fetching pages, posting forms, downloading files etc.
+
+using libcURL: 
+A Beginner’s Guide to LibCurl : https://www.hackthissite.org/articles/read/1078
+
+@author Pulkit Singh
+@date April 2017
+*/
 class UserAgent
 {
-public:
+public:	
 	UserAgent();
 	void
+	
 	SetPOSTFields(char* data);
+	void
+	SetFetchRange(long long first, 
+		     long long last);
+	void
+	SetFetchRange(string range);
+	void
+	SetUserAgent(string agent);
+	vector<string>
+
+	GetUserAgents();
+	long
+	GetPageSize(string url);
 	char *
 	GetPage(string url);
 	char *
-	Google(string query);
+	Google(string query);	
 
 private:
 	CURL *   _pcURL;  //cURL handle
 	CURLcode _result; //Output returned by cURL
+	string   _userAgent; //User agent string to be used
 	struct BufferStruct _output; // Output inside character buffer, returned by cURL
-
-	//Function passed to cURL (curl_easy_setopt,CURLOPT_WRITEFUNCTION) for returning output
+	
 	static size_t 
 	WriteMemoryCallback (void * ptr, 
                          size_t size, 
                          size_t nmemb, 
-                         void * data);
+                         void * data);	
+
+	void
+	InitCurl ();
+	void
+	InitCurlOptions ();
 };
 #endif

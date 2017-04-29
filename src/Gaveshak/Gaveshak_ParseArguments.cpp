@@ -20,6 +20,7 @@ void Gaveshak::ParseArguments(int argc, char* argv[])
 	options_description desc("Allowed options");
 	desc.add_options()
 		("help", "Produce help message")
+		("fetch", value<string>(), "Fetch the given pages")
 		("crawl", value<vector<string>>(), "Crawl the given pages")
 		("google",value<string>(),"Google something")
 		;
@@ -34,6 +35,22 @@ void Gaveshak::ParseArguments(int argc, char* argv[])
 	*/
 	if (vm.count("help")) {
 		cout << desc << "\n";		
+	}
+
+	/*
+	* @use : --fetch <page1> <page2> ...
+	* @desc: fetch the given pages
+	*/
+	if (vm.count("fetch")) {
+		string page = vm["fetch"].as<string>();		
+
+		UserAgent agent;			
+		//agent.SetFetchRange(1000000000, 1000000099);
+		//agent.SetFetchRange(0, 1000000);
+		char* pPageContent = agent.GetPage(page);
+		//long pageSize = agent.GetPageSize("");
+		if(NULL != pPageContent)
+			cout << pPageContent;
 	}
 
 	/*
@@ -55,13 +72,13 @@ void Gaveshak::ParseArguments(int argc, char* argv[])
 		UserAgent agent;
 		BOOST_FOREACH(string page, pages)
 		{				
-			cout << "URL: " << page << endl << endl;
+			cout << "URL: " << page << endl;
 			char* pPageContent = agent.GetPage(page);
-			cout << pPageContent;
+			//cout << pPageContent;
 		}		
 		
-		cout << "Press any key to exit...";
-		cin.get(); //wait
+		//cout << "Press any key to exit...";
+		//cin.get(); //wait
 	}	
 
 	/*

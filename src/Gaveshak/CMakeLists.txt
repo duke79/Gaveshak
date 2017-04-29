@@ -6,12 +6,20 @@ file(GLOB Gaveshak_SRC
     "*.h"
     "*.cpp"
 )
-add_executable(Gaveshak main.cpp ${Gaveshak_SRC})       # Gaveshak.exe
+file(GLOB TinyXML2_SRC
+    "${CMAKE_SOURCE_DIR}/lib/TinyXML2/*.h"
+    "${CMAKE_SOURCE_DIR}/lib/TinyXML2/*.cpp"
+)
+add_executable(Gaveshak main.cpp ${Gaveshak_SRC} ${TinyXML2_SRC})       # Gaveshak.exe
 
 # Headers
 include_directories(.)                                               # Current directory
 include_directories(${CMAKE_SOURCE_DIR}/lib/boost)                   # Boost | pre-built boost/boost directory can be downloaded, as building boost is cumbersome
 include_directories(${CMAKE_SOURCE_DIR}/lib/libcURL/include)         # libcURL
+include_directories(${CMAKE_SOURCE_DIR}/lib/TinyXML2)                # TinyXML2
+
+# Resources
+configure_file(values/UserAgents.xml ${CMAKE_SOURCE_DIR}/bin/values/UserAgents.xml @COPYONLY)
 
 # Dependencies
 ## Boost
@@ -27,3 +35,6 @@ add_custom_command(TARGET Gaveshak POST_BUILD					# Adds a post-build event to M
 		COMMAND ${CMAKE_COMMAND} -E copy_if_different			# which executes "cmake - E copy_if_different..."
         "${CURLLIB}.dll"		                                # <--this is in-file
         ${CMAKE_SOURCE_DIR}/bin)								# <--this is out-file path
+
+## shlwapi
+TARGET_LINK_LIBRARIES(Gaveshak shlwapi.lib)
