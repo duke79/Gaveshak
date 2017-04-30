@@ -4,7 +4,7 @@
 * Written by Pulkit Singh <pulkitsingh01@gmail.com>, April 2017
 **************************************************************/
 
-#include "UserAgent.h"
+#include "Fetcher.h"
 
 #include "sstream"
 #include "tinyxml2.h"
@@ -14,7 +14,7 @@
 
 /** Sets the required curl options. These can be changed later if required.
 */
-UserAgent::UserAgent()
+Fetcher::Fetcher()
 {		
 	InitCurl();
 }
@@ -23,7 +23,7 @@ UserAgent::UserAgent()
 @param data URI string with post fields. Example: "username=your_username_here&password=your_password_here"
 */
 void
-UserAgent::SetPOSTFields(char* data)
+Fetcher::SetPOSTFields(char* data)
 {
 	//TODO: Verify whether the escaping works or not
 	
@@ -49,7 +49,7 @@ UserAgent::SetPOSTFields(char* data)
 @param last last byte where to end
 */
 void
-UserAgent::SetFetchRange(long long first,
+Fetcher::SetFetchRange(long long first,
 		            long long last)
 {
 	// Create the range string Eg. "0-99"
@@ -67,16 +67,16 @@ UserAgent::SetFetchRange(long long first,
 @param range Range in lower-upper format. Eg. "0-99"
 */
 void
-UserAgent::SetFetchRange(string range)
+Fetcher::SetFetchRange(string range)
 {
 	curl_easy_setopt(_pcURL, CURLOPT_RANGE, range.c_str());
 }
 
-/** Set the user agent to be used. A list of available user agents can be retrieved with UserAgent::GetUserAgents.
+/** Set the user agent to be used. A list of available user agents can be retrieved with Fetcher::GetUserAgents.
 @param agent User agent string
 */
 void
-UserAgent::SetUserAgent(string agent)
+Fetcher::SetUserAgent(string agent)
 {
 	_userAgent = agent;
 	curl_easy_setopt(_pcURL, CURLOPT_USERAGENT, _userAgent); // Setting user agent string
@@ -86,7 +86,7 @@ UserAgent::SetUserAgent(string agent)
 @return List of user agent strings
 */
 vector<string>
-UserAgent::GetUserAgents()
+Fetcher::GetUserAgents()
 {
 	vector<string> listUserAgents;
 
@@ -95,16 +95,37 @@ UserAgent::GetUserAgents()
 	string xmlPath = _GaveshakPath;
 	xmlPath += "\\values\\UserAgents.xml";
 	doc.LoadFile(xmlPath.c_str());
-	tinyxml2::XMLElement *pRoot = doc.FirstChildElement("UserAgents");
+	tinyxml2::XMLElement *pRoot = doc.FirstChildElement("useragentswitcher");
 
 	if (NULL == pRoot)
-		return listUserAgents;
+		return listUserAgents;    
 
 	// Get the list of Agent nodes from the root node
-	for (tinyxml2::XMLElement * agent = pRoot->FirstChildElement("Agent"); agent != NULL; agent = agent->NextSiblingElement())
+	for (tinyxml2::XMLElement * folder = pRoot->FirstChildElement("folder"); folder != NULL; folder = folder->NextSiblingElement("folder"))
 	{
-		const char * agentValue = agent->GetText();
-		listUserAgents.push_back(agentValue);
+		// Get the list of Subfolders nodes from the root node
+		for (tinyxml2::XMLElement * subFolder = folder->FirstChildElement("folder"); subFolder != NULL; subFolder = subFolder->NextSiblingElement("folder"))
+		{
+			// Get the list of Agent nodes from the root node
+			for (tinyxml2::XMLElement * agent = subFolder->FirstChildElement("useragent"); agent != NULL; agent = agent->NextSiblingElement("useragent"))
+			{
+				if (NULL != agent)
+				{
+					const char * agentValue = agent->Attribute("useragent");
+					listUserAgents.push_back(agentValue);
+				}
+			}
+		}
+
+		// Get the list of Agent nodes from the root node
+		for (tinyxml2::XMLElement * agent = folder->FirstChildElement("useragent"); agent != NULL; agent = agent->NextSiblingElement("useragent"))
+		{
+			if (NULL != agent)
+			{
+				const char * agentValue = agent->Attribute("useragent");
+				listUserAgents.push_back(agentValue);
+			}
+		}
 	}
 
 	// Return the list of agents found in xml
@@ -117,7 +138,7 @@ UserAgent::GetUserAgents()
 @return Page size
 */
 long
-UserAgent::GetPageSize(string url="")
+Fetcher::GetPageSize(string url="")
 {	
 	long dSize=-1;
 	string rc;
@@ -141,17 +162,16 @@ UserAgent::GetPageSize(string url="")
 @param url
 @return Page content
 */
-char *
-UserAgent::GetPage(string url)
+string
+Fetcher::GetPage(string url)
 {					
-	curl_easy_setopt(_pcURL, CURLOPT_URL, url.c_str());
-	_result = curl_easy_perform(_pcURL);
+	_result = curl_easy_strerror(curl_easy_setopt(_pcURL, CURLOPT_URL, url.c_str()));
+	_result = curl_easy_strerror(curl_easy_perform(_pcURL));	
 	curl_easy_cleanup(_pcURL);
-	char* pPage = NULL;
+	string pPage;
 	if (_output.buffer)
 	{
-		pPage = new char[_output.size];
-		strcpy(pPage, _output.buffer);
+		pPage = string(_output.buffer, _output.size);
 
 		free(_output.buffer);
 		_output.buffer = 0;
@@ -164,8 +184,8 @@ UserAgent::GetPage(string url)
 @param query
 @return Google results page
 */
-char *
-UserAgent::Google(string query)
+string
+Fetcher::Google(string query)
 {
 	string url = "http://www.google.co.in/search?q="+query+"&newwindow=1&sa=G&gbv=1";
 	string result = GetPage(url);
@@ -181,10 +201,8 @@ UserAgent::Google(string query)
 	{
 		result.replace(index, toReplace.length(), replaceWith);
 	}
-
-	char* chResult = new char[result.size()];
-	strcpy(chResult, result.c_str());
-	return chResult;
+	
+	return result;
 }
 
 /** Function passed to cURL (curl_easy_setopt,CURLOPT_WRITEFUNCTION) for returning output
@@ -195,7 +213,7 @@ UserAgent::Google(string query)
 @return Buffer Size
 */
 size_t 
-UserAgent::WriteMemoryCallback (void * ptr, 
+Fetcher::WriteMemoryCallback (void * ptr, 
 	                            size_t size, 
 	                            size_t nmemb, 
 	                            void * data)
@@ -218,9 +236,9 @@ UserAgent::WriteMemoryCallback (void * ptr,
 /** Init curl
 */
 void
-UserAgent::InitCurl()
+Fetcher::InitCurl()
 {
-	curl_global_init(CURL_GLOBAL_ALL); //Required at the beginning to be able to use libcURL
+	_result = curl_easy_strerror(curl_global_init(CURL_GLOBAL_ALL)); //Required at the beginning to be able to use libcURL
 
 	// Output buffer initialization (buffer stores the stream of fetched content)
 	_output.buffer = NULL;
@@ -235,24 +253,28 @@ UserAgent::InitCurl()
 /** Set the necessary curl options
 */
 void
-UserAgent::InitCurlOptions()
+Fetcher::InitCurlOptions()
 {	
-	curl_easy_setopt(_pcURL, CURLOPT_WRITEFUNCTION, WriteMemoryCallback); // Passing the function pointer to LC
-	curl_easy_setopt(_pcURL, CURLOPT_WRITEDATA, (void *)&_output); // Passing our BufferStruct to LC, PageContent will be stored in it
+	_result = curl_easy_strerror(curl_easy_setopt(_pcURL, CURLOPT_WRITEFUNCTION, WriteMemoryCallback)); // Passing the function pointer to LC
+	_result = curl_easy_strerror(curl_easy_setopt(_pcURL, CURLOPT_WRITEDATA, (void *)&_output)); // Passing our BufferStruct to LC, PageContent will be stored in it
 
 																   // Set the user agent string	
 	vector<string> listUserAgents = GetUserAgents();
-	if (listUserAgents.size())
+	/*if (listUserAgents.size())
 	{
 		LOG_T << "UserAgents list retrieved from resources. Now setting the first user agent from list on curl.";
-		SetUserAgent(listUserAgents[0]);
+		SetUserAgent(listUserAgents[105]); //[105] : "Mozilla/5.0 (Windows NT 10.0; WOW64; Trident/7.0; MATBJS; rv:11.0) like Gecko"
 	}
-	else
-		SetUserAgent("Mozilla/4.0");
+	else*/
+	{
+		LOG_W << "UserAgents list retrieval failed. Setting default string - \"Mozilla / 4.0\" ";
+		SetUserAgent("Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; BOLT/2.800) AppleWebKit/534.6 (KHTML, like Gecko) Version/5.0 Safari/534.6.3");
+	}
 
-	curl_easy_setopt(_pcURL, CURLOPT_AUTOREFERER, 1); //Automatically update the referer header, when following a redirect
-	curl_easy_setopt(_pcURL, CURLOPT_FOLLOWLOCATION, 1); //Enable cURL to follow re-directs
-	curl_easy_setopt(_pcURL, CURLOPT_COOKIEFILE, ""); //Enabling the cookie engine, null string starts the engine wihout some prior cookies
+	_result = curl_easy_strerror(curl_easy_setopt(_pcURL, CURLOPT_AUTOREFERER, 1)); //Automatically update the referer header, when following a redirect
+	_result = curl_easy_strerror(curl_easy_setopt(_pcURL, CURLOPT_FOLLOWLOCATION, 1)); //Enable cURL to follow re-directs
+	_result = curl_easy_strerror(curl_easy_setopt(_pcURL, CURLOPT_COOKIEFILE, "")); //Enabling the cookie engine, null string starts the engine wihout some prior cookies
+	//_result = curl_easy_strerror(curl_easy_setopt(_pcURL, CURLOPT_VERBOSE, 1));	
 	//CURLOPT_ACCEPT_ENCODING not available before 7.21.6
-	//curl_easy_setopt(_pcURL, CURLOPT_ACCEPT_ENCODING, "deflate"); //requests the server to compress its response using the zlib algorithm
+	//_result = curl_easy_strerror(curl_easy_setopt(_pcURL, CURLOPT_ACCEPT_ENCODING, "deflate")); //requests the server to compress its response using the zlib algorithm
 }

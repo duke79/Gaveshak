@@ -6,8 +6,38 @@
 
 #include "Logger.h"
 
+#include <boost/log/sources/severity_logger.hpp>
+#include <boost/log/utility/setup/file.hpp>
+#include <boost/log/utility/setup/console.hpp>
+#include <boost/log/utility/setup/common_attributes.hpp>
+#include <boost/date_time/posix_time/posix_time_types.hpp>
+#include <boost/log/support/date_time.hpp>
+
 Logger::Logger()
 {	
+	/** Add output stream (Gaveshak.log)
+	*/
+	boost::log::core::get()->add_thread_attribute("File", boost::log::attributes::mutable_constant<std::string>(""));
+	boost::log::core::get()->add_thread_attribute("Line", boost::log::attributes::mutable_constant<int>(0));	
+	boost::log::add_common_attributes();
+	AddLogFile("Gaveshak.log");
+}
+
+/** Output log will also be store in this file along all the other already defined output streams.
+*/
+void Logger::AddLogFile(string file)
+{
+	boost::log::add_file_log(
+		boost::log::keywords::file_name = (char*)file.c_str(),
+		boost::log::keywords::format = (
+			boost::log::expressions::stream
+			<< boost::log::expressions::format_date_time<boost::posix_time::ptime>("TimeStamp", "%Y-%m-%d_%H:%M:%S.%f")
+			<< ": <" << boost::log::trivial::severity << "> "
+			<< '[' << boost::log::expressions::attr<std::string>("File")
+			<< ':' << boost::log::expressions::attr<int>("Line") << "] "
+			<< boost::log::expressions::smessage
+			)
+	);
 }
 
 void Logger::SetMinSeverity(boost::log::trivial::severity_level severity)

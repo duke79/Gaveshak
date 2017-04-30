@@ -10,7 +10,8 @@
 #include "boost/foreach.hpp"
 #include "iostream"
 #include "ConsoleFormatter.h"
-#include "UserAgent.h"
+#include "Fetcher.h"
+#include "fstream"
 using namespace std;
 using namespace boost::program_options;
 
@@ -20,9 +21,10 @@ void Gaveshak::ParseArguments(int argc, char* argv[])
 	options_description desc("Allowed options");
 	desc.add_options()
 		("help", "Produce help message")
+		("output", value<string>(), "Output file")
 		("fetch", value<string>(), "Fetch the given pages")
 		("crawl", value<vector<string>>(), "Crawl the given pages")
-		("google",value<string>(),"Google something")
+		("google",value<string>(),"Google something")		
 		;
 
 	variables_map vm;
@@ -38,19 +40,44 @@ void Gaveshak::ParseArguments(int argc, char* argv[])
 	}
 
 	/*
+	* @use : --output
+	* @desc: Stream the output response to the given file.
+	*/
+	string filepath;
+	if (vm.count("output")) {
+		filepath = vm["output"].as<string>();
+	}
+	else
+	{
+		filepath = string("Gaveshak.output");
+	}
+	//std::unique_ptr<FILE, decltype(&std::fclose)> spOutputFile(fopen(filepath.c_str(), "wb"), &std::fclose);
+
+	/*
 	* @use : --fetch <page1> <page2> ...
 	* @desc: fetch the given pages
 	*/
 	if (vm.count("fetch")) {
 		string page = vm["fetch"].as<string>();		
 
-		UserAgent agent;			
+		Fetcher agent;			
 		//agent.SetFetchRange(1000000000, 1000000099);
 		//agent.SetFetchRange(0, 1000000);
-		char* pPageContent = agent.GetPage(page);
+		string pPageContent = agent.GetPage(page);
 		//long pageSize = agent.GetPageSize("");
-		if(NULL != pPageContent)
-			cout << pPageContent;
+		if (pPageContent.size())
+		{
+			if (filepath.size())
+			{
+				ofstream coutFile(filepath,ofstream::binary);
+				coutFile << pPageContent;
+				coutFile.close();
+			}
+			else
+			{
+				cout << pPageContent;
+			}
+		}
 	}
 
 	/*
@@ -69,11 +96,11 @@ void Gaveshak::ParseArguments(int argc, char* argv[])
 		CF.Reset();
 		cout << " page(s) : \n";		
 
-		UserAgent agent;
+		Fetcher agent;
 		BOOST_FOREACH(string page, pages)
 		{				
 			cout << "URL: " << page << endl;
-			char* pPageContent = agent.GetPage(page);
+			string pPageContent = agent.GetPage(page);
 			//cout << pPageContent;
 		}		
 		
@@ -88,7 +115,7 @@ void Gaveshak::ParseArguments(int argc, char* argv[])
 	if (vm.count("google"))
 	{
 		string query = vm["google"].as<string>();
-		UserAgent agent;
+		Fetcher agent;
 		cout << agent.Google(query);
 	}
 }

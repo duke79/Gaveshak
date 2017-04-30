@@ -30,10 +30,10 @@ A Beginner’s Guide to LibCurl : https://www.hackthissite.org/articles/read/1078
 @author Pulkit Singh
 @date April 2017
 */
-class UserAgent
+class Fetcher
 {
 public:	
-	UserAgent();
+	Fetcher();
 	void
 	
 	SetPOSTFields(char* data);
@@ -49,14 +49,14 @@ public:
 	GetUserAgents();
 	long
 	GetPageSize(string url);
-	char *
+	string
 	GetPage(string url);
-	char *
+	string
 	Google(string query);	
 
 private:
 	CURL *   _pcURL;  //cURL handle
-	CURLcode _result; //Output returned by cURL
+	string   _result; //Output returned by cURL	
 	string   _userAgent; //User agent string to be used
 	struct BufferStruct _output; // Output inside character buffer, returned by cURL
 	
