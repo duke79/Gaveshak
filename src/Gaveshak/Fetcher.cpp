@@ -88,7 +88,7 @@ Fetcher::SetUserAgent(string agent)
 void
 Fetcher::SetProxy(string proxy)
 {
-	_result = curl_easy_strerror(curl_easy_setopt(_pcURL, CURLOPT_PROXY, "http://68.128.212.240:8080"));
+	_result = curl_easy_strerror(curl_easy_setopt(_pcURL, CURLOPT_PROXY, proxy.c_str()));
 	//_result = curl_easy_strerror(curl_easy_setopt(_pcURL, CURLOPT_PROXYPORT, "8080"));
 	//_result = curl_easy_strerror(curl_easy_setopt(_pcURL, CURLOPT_PROXYTYPE, CURLPROXY_HTTPS));
 	/* create headers */

@@ -17,6 +17,7 @@ using namespace boost::program_options;
 
 void ParseHelp    (variables_map &vm, options_description &desc);
 void ParseOutput  (variables_map &vm, options_description &desc, string &filepath);
+void ParseProxy   (variables_map &vm, options_description &desc, Fetcher fetcher);
 void ParseFetch   (variables_map &vm, options_description &desc, Fetcher &fetcher, string &filepath);
 void ParseCrawl   (variables_map &vm, options_description &desc, Fetcher fetcher);
 void ParseGoogle  (variables_map &vm, options_description &desc, Fetcher fetcher);
@@ -28,9 +29,10 @@ void Gaveshak::ParseArguments(int argc, char* argv[])
 	desc.add_options()
 		("help", "Produce help message")
 		("output", value<string>(), "Output file")
+		("proxy", value<string>(), "Proxy server")
 		("fetch", value<string>(), "Fetch the given pages")
 		("crawl", value<vector<string>>(), "Crawl the given pages")
-		("google",value<string>(),"Google something")		
+		("google",value<string>(),"Google something")
 		;
 
 	variables_map vm;
@@ -38,11 +40,11 @@ void Gaveshak::ParseArguments(int argc, char* argv[])
 	notify(vm);					
 
 	string outputFilepath;
-	Fetcher fetcher;
-	fetcher.SetProxy("https://68.128.212.240:8080");
+	Fetcher fetcher;	
 
 	ParseHelp(vm, desc);
 	ParseOutput(vm, desc, outputFilepath);
+	ParseProxy(vm, desc, fetcher);
 	ParseFetch(vm, desc, fetcher, outputFilepath);
 	ParseCrawl(vm, desc, fetcher);
 	ParseGoogle(vm, desc, fetcher);
@@ -73,6 +75,18 @@ void ParseOutput (variables_map &vm, options_description &desc, string &filepath
 		filepath = string("Gaveshak.output");
 	}
 	//std::unique_ptr<FILE, decltype(&std::fclose)> spOutputFile(fopen(filepath.c_str(), "wb"), &std::fclose);
+}
+
+/*
+* @use : --proxy
+* @desc: Proxy server
+*/
+void ParseProxy(variables_map &vm, options_description &desc, Fetcher fetcher)
+{
+	if (vm.count("proxy")) {
+		string proxy = vm["proxy"].as<string>();
+		fetcher.SetProxy(proxy);
+	}
 }
 
 /*
