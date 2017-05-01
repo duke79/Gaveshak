@@ -15,6 +15,12 @@
 using namespace std;
 using namespace boost::program_options;
 
+void ParseHelp    (variables_map &vm, options_description &desc);
+void ParseOutput  (variables_map &vm, options_description &desc, string &filepath);
+void ParseFetch   (variables_map &vm, options_description &desc, Fetcher &fetcher, string &filepath);
+void ParseCrawl   (variables_map &vm, options_description &desc, Fetcher fetcher);
+void ParseGoogle  (variables_map &vm, options_description &desc, Fetcher fetcher);
+
 void Gaveshak::ParseArguments(int argc, char* argv[])
 {	
 	// Declare the supported options.
@@ -29,21 +35,36 @@ void Gaveshak::ParseArguments(int argc, char* argv[])
 
 	variables_map vm;
 	store(parse_command_line(argc, argv, desc), vm);
-	notify(vm);
+	notify(vm);					
 
-	/*
-	* @use : --help	
-	* @desc: Produce help message
-	*/
+	string outputFilepath;
+	Fetcher fetcher;
+	fetcher.SetProxy("https://68.128.212.240:8080");
+
+	ParseHelp(vm, desc);
+	ParseOutput(vm, desc, outputFilepath);
+	ParseFetch(vm, desc, fetcher, outputFilepath);
+	ParseCrawl(vm, desc, fetcher);
+	ParseGoogle(vm, desc, fetcher);
+}
+
+/*
+* @use : --help
+* @desc: Produce help message
+*/
+void ParseHelp   (variables_map &vm, options_description &desc)
+{
 	if (vm.count("help")) {
-		cout << desc << "\n";		
+		cout << desc << "\n";
 	}
+}
 
-	/*
-	* @use : --output
-	* @desc: Stream the output response to the given file.
-	*/
-	string filepath;
+/*
+* @use : --output
+* @desc: Stream the output response to the given file.
+*/
+void ParseOutput (variables_map &vm, options_description &desc, string &filepath)
+{		
 	if (vm.count("output")) {
 		filepath = vm["output"].as<string>();
 	}
@@ -52,24 +73,26 @@ void Gaveshak::ParseArguments(int argc, char* argv[])
 		filepath = string("Gaveshak.output");
 	}
 	//std::unique_ptr<FILE, decltype(&std::fclose)> spOutputFile(fopen(filepath.c_str(), "wb"), &std::fclose);
+}
 
-	/*
-	* @use : --fetch <page1> <page2> ...
-	* @desc: fetch the given pages
-	*/
+/*
+* @use : --fetch <page1> <page2> ...
+* @desc: fetch the given pages
+*/
+void ParseFetch  (variables_map &vm, options_description &desc, Fetcher &fetcher, string &filepath)
+{	
 	if (vm.count("fetch")) {
-		string page = vm["fetch"].as<string>();		
-
-		Fetcher agent;			
-		//agent.SetFetchRange(1000000000, 1000000099);
-		//agent.SetFetchRange(0, 1000000);
-		string pPageContent = agent.GetPage(page);
-		//long pageSize = agent.GetPageSize("");
+		string page = vm["fetch"].as<string>();
+		
+		//fetcher.SetFetchRange(1000000000, 1000000099);
+		//fetcher.SetFetchRange(0, 1000000);
+		string pPageContent = fetcher.GetPage(page);
+		//long pageSize = fetcher.GetPageSize("");
 		if (pPageContent.size())
 		{
 			if (filepath.size())
 			{
-				ofstream coutFile(filepath,ofstream::binary);
+				ofstream coutFile(filepath, ofstream::binary);
 				coutFile << pPageContent;
 				coutFile.close();
 			}
@@ -79,14 +102,17 @@ void Gaveshak::ParseArguments(int argc, char* argv[])
 			}
 		}
 	}
+}
 
-	/*
-	* @use : --crawl <page1> <page2> ...
-	* @desc: Crawl the given pages
-	*/
+/*
+* @use : --crawl <page1> <page2> ...
+* @desc: Crawl the given pages
+*/
+void ParseCrawl  (variables_map &vm, options_description &desc, Fetcher fetcher)
+{	
 	if (vm.count("crawl")) {
 		vector<string> pages = vm["crawl"].as< vector<string> >();
-				
+
 
 		ConsoleFormatter CF;
 
@@ -94,28 +120,30 @@ void Gaveshak::ParseArguments(int argc, char* argv[])
 		CF.SetColor(COUT_IN_WHITE);
 		cout << pages.size();
 		CF.Reset();
-		cout << " page(s) : \n";		
+		cout << " page(s) : \n";
 
-		Fetcher agent;
 		BOOST_FOREACH(string page, pages)
-		{				
+		{
 			cout << "URL: " << page << endl;
-			string pPageContent = agent.GetPage(page);
+			string pPageContent = fetcher.GetPage(page);
 			//cout << pPageContent;
-		}		
-		
+		}
+
 		//cout << "Press any key to exit...";
 		//cin.get(); //wait
-	}	
+	}
 
-	/*
-	* @use : --google <query>
-	* @desc: Google the given query
-	*/
+}
+
+/*
+* @use : --google <query>
+* @desc: Google the given query
+*/
+void ParseGoogle (variables_map &vm, options_description &desc, Fetcher fetcher)
+{	
 	if (vm.count("google"))
 	{
-		string query = vm["google"].as<string>();
-		Fetcher agent;
-		cout << agent.Google(query);
+		string query = vm["google"].as<string>();		
+		cout << fetcher.Google(query);
 	}
 }
