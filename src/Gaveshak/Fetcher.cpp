@@ -183,8 +183,11 @@ Fetcher::GetPageSize(string url="")
 string
 Fetcher::GetPage(string url)
 {					
+	CURLcode rc;
 	_result = curl_easy_strerror(curl_easy_setopt(_pcURL, CURLOPT_URL, url.c_str()));
-	_result = curl_easy_strerror(curl_easy_perform(_pcURL));	
+	_result = curl_easy_strerror(rc=curl_easy_perform(_pcURL));	
+	if (CURLE_OK != rc)
+		LOG_E << _result;
 	curl_easy_cleanup(_pcURL);
 	string pPage;
 	if (_output.buffer)
