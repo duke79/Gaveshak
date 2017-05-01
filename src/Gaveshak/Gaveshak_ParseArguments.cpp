@@ -100,6 +100,7 @@ void ParseFetch  (variables_map &vm, options_description &desc, Fetcher &fetcher
 		
 		//fetcher.SetFetchRange(1000000000, 1000000099);
 		//fetcher.SetFetchRange(0, 1000000);
+		double pPageSize = fetcher.GetPageSize(page);
 		string pPageContent = fetcher.GetPage(page);
 		//long pageSize = fetcher.GetPageSize("");
 		if (pPageContent.size())

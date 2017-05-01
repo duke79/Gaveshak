@@ -34,8 +34,8 @@ class Fetcher
 {
 public:	
 	Fetcher();
-	void
-	
+
+	void	
 	SetPOSTFields(char* data);
 	void
 	SetFetchRange(long long first, 
@@ -49,7 +49,7 @@ public:
 
 	vector<string>
 	GetUserAgents();
-	long
+	double
 	GetPageSize(string url);
 	string
 	GetPage(string url);

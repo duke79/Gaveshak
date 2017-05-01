@@ -150,16 +150,15 @@ Fetcher::GetUserAgents()
 	return listUserAgents;
 }
 
-/// \todo Fix it. Always returning zero size.
-/** Supposed to retrive the page size before downloading. But not working! 
+/** To retrive the page size before downloading.
+https://curl.haxx.se/libcurl/c/ftpgetinfo.html
 @param url
 @return Page size
 */
-long
+double
 Fetcher::GetPageSize(string url="")
-{	
-	long dSize=-1;
-	string rc;
+{		
+	double * dSize = new double;	
 
 	if (url.size())
 	{
@@ -167,13 +166,21 @@ Fetcher::GetPageSize(string url="")
 	}
 
 	char * effectiveURL = new char[2048];
-	rc = curl_easy_strerror(curl_easy_getinfo(_pcURL, CURLINFO_EFFECTIVE_URL, &effectiveURL));
+	_result = curl_easy_strerror(curl_easy_getinfo(_pcURL, CURLINFO_EFFECTIVE_URL, &effectiveURL));
 	if (strlen(effectiveURL))
-	{		
-		rc = curl_easy_strerror(curl_easy_getinfo(_pcURL, CURLINFO_CONTENT_LENGTH_UPLOAD, &dSize));		
-	}
+	{	
+		//_result = curl_easy_strerror(curl_easy_setopt(_pcURL, CURLOPT_HEADER, 0L));
+		_result = curl_easy_strerror(curl_easy_setopt(_pcURL, CURLOPT_NOBODY, 1L));
+		_result = curl_easy_strerror(curl_easy_perform(_pcURL));
+		
+		_result = curl_easy_strerror(curl_easy_getinfo(_pcURL, CURLINFO_CONTENT_LENGTH_DOWNLOAD, dSize));					
+	}	
 
-	return dSize;
+	// Reset all the curl options
+	curl_easy_reset(_pcURL);
+	InitCurl();
+
+	return *dSize;
 }
 
 /** Fetch an http/https page.
