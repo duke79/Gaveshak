@@ -44,8 +44,10 @@ public:
 	SetFetchRange(string range);
 	void
 	SetUserAgent(string agent);
-	vector<string>
+	void
+	SetProxy(string proxy);
 
+	vector<string>
 	GetUserAgents();
 	long
 	GetPageSize(string url);

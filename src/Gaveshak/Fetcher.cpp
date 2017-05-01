@@ -35,12 +35,12 @@ Fetcher::SetPOSTFields(char* data)
 	if (NULL != escapedURI) // If the URI escape worked
 	{
 		LOG_T << "UserAgent::SetPOSTFields: URI escaped : " << data;
-		curl_easy_setopt(_pcURL, CURLOPT_POSTFIELDS, escapedURI);
+		_result = curl_easy_strerror(curl_easy_setopt(_pcURL, CURLOPT_POSTFIELDS, escapedURI));
 	}
 	else                    // If the URI escape didn't work
 	{
 		LOG_E << "UserAgent::SetPOSTFields: Couldn't URI escape : " << data;
-		curl_easy_setopt(_pcURL, CURLOPT_POSTFIELDS, data);
+		_result = curl_easy_strerror(curl_easy_setopt(_pcURL, CURLOPT_POSTFIELDS, data));
 	}
 }
 
@@ -69,7 +69,7 @@ Fetcher::SetFetchRange(long long first,
 void
 Fetcher::SetFetchRange(string range)
 {
-	curl_easy_setopt(_pcURL, CURLOPT_RANGE, range.c_str());
+	_result = curl_easy_strerror(curl_easy_setopt(_pcURL, CURLOPT_RANGE, range.c_str()));
 }
 
 /** Set the user agent to be used. A list of available user agents can be retrieved with Fetcher::GetUserAgents.
@@ -79,7 +79,25 @@ void
 Fetcher::SetUserAgent(string agent)
 {
 	_userAgent = agent;
-	curl_easy_setopt(_pcURL, CURLOPT_USERAGENT, _userAgent); // Setting user agent string
+	_result = curl_easy_strerror(curl_easy_setopt(_pcURL, CURLOPT_USERAGENT, _userAgent)); // Setting user agent string
+}
+
+/** Set the proxy.
+@param proxy Example: "http://127.0.0.1:8888/"
+*/
+void
+Fetcher::SetProxy(string proxy)
+{
+	_result = curl_easy_strerror(curl_easy_setopt(_pcURL, CURLOPT_PROXY, "http://68.128.212.240:8080"));
+	//_result = curl_easy_strerror(curl_easy_setopt(_pcURL, CURLOPT_PROXYPORT, "8080"));
+	//_result = curl_easy_strerror(curl_easy_setopt(_pcURL, CURLOPT_PROXYTYPE, CURLPROXY_HTTPS));
+	/* create headers */
+	struct curl_slist *headers = NULL;
+	headers = curl_slist_append(headers, "Content-Type: text/xml");
+	headers = curl_slist_append(headers, "Accept: text / html, application / xhtml + xml, application / xml; q = 0.9, */*;q=0.8");
+
+	/* pass our list of custom made headers */
+	_result = curl_easy_strerror(curl_easy_setopt(_pcURL, CURLOPT_HTTPHEADER, headers));
 }
 
 /** Get the list of User Agent Strings (representing browser identification).
@@ -145,7 +163,7 @@ Fetcher::GetPageSize(string url="")
 
 	if (url.size())
 	{
-		curl_easy_setopt(_pcURL, CURLOPT_URL, url.c_str());
+		_result = curl_easy_strerror(curl_easy_setopt(_pcURL, CURLOPT_URL, url.c_str()));
 	}
 
 	char * effectiveURL = new char[2048];
