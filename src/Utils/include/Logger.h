@@ -1,6 +1,8 @@
 #ifndef Logger_H
 #define Logger_H
 
+#include "Utils.h"
+
 #include "boost/log/expressions.hpp"
 #include "boost/log/core.hpp"
 #include "boost/log/trivial.hpp"
@@ -20,12 +22,18 @@ using namespace std;
 #define CUSTOM_LOG(sev) \
    BOOST_LOG_STREAM_WITH_PARAMS( \
       ::boost::log::trivial::logger::get(), \
-         (Logger::set_get_attrib("File", Logger::path_to_filename(__FILE__))) \
+         (Logger::set_get_attrib("File", path_to_filename(__FILE__))) \
          (Logger::set_get_attrib("Line", __LINE__)) \
          (::boost::log::keywords::severity = (boost::log::trivial::sev)) \
    )
 
-class Logger
+/** Convert file path to only the filename
+*/
+static std::string path_to_filename(std::string path) {
+	return path.substr(path.find_last_of("/\\") + 1);
+}
+
+class UTILS_EXPORT Logger
 {
 	friend class Gaveshak;
 public:	
@@ -42,13 +50,7 @@ public:
 		auto attr = boost::log::attribute_cast<boost::log::attributes::mutable_constant<ValueType>>(boost::log::core::get()->get_thread_attributes()[name]);
 		attr.set(value);
 		return attr.get();
-	}
-
-	/** Convert file path to only the filename
-	*/
-	static std::string path_to_filename(std::string path) {
-		return path.substr(path.find_last_of("/\\") + 1);
-	}
+	}	
 protected:
 	Logger(); // To prevent unwanted instantiation	
 

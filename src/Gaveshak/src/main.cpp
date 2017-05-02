@@ -4,7 +4,10 @@
 * Written by Pulkit Singh <pulkitsingh01@gmail.com>, April 2017
 **************************************************************/
 
-#include "Globals.h"
+#include "Gaveshak.h"
 
-std::string     _GaveshakPath;
-Logger *        _Logger        = NULL;
+int main(int argc, char* argv[]) {
+	Gaveshak * pGaveshak = new Gaveshak();
+	pGaveshak->ParseArguments(argc,argv);	
+	return 0;
+}

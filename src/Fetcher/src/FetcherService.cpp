@@ -4,7 +4,9 @@
 * Written by Pulkit Singh <pulkitsingh01@gmail.com>, April 2017
 **************************************************************/
 
-#include "Fetcher.h"
+#include "FetcherService.h"
+
+#include "curl/curl.h"
 
 #include "sstream"
 #include "tinyxml2.h"
@@ -12,10 +14,10 @@
 #include "Globals.h"
 #include "Logger.h"
 
-/** Sets the required curl options. These can be changed later if required.
-*/
-Fetcher::Fetcher()
-{		
+
+
+FetcherService::FetcherService()
+{
 	InitCurl();
 }
 
@@ -23,7 +25,7 @@ Fetcher::Fetcher()
 @param data URI string with post fields. Example: "username=your_username_here&password=your_password_here"
 */
 void
-Fetcher::SetPOSTFields(char* data)
+FetcherService::SetPOSTFields(char* data)
 {
 	//TODO: Verify whether the escaping works or not
 	
@@ -49,7 +51,7 @@ Fetcher::SetPOSTFields(char* data)
 @param last last byte where to end
 */
 void
-Fetcher::SetFetchRange(long long first,
+FetcherService::SetFetchRange(long long first,
 		            long long last)
 {
 	// Create the range string Eg. "0-99"
@@ -67,16 +69,16 @@ Fetcher::SetFetchRange(long long first,
 @param range Range in lower-upper format. Eg. "0-99"
 */
 void
-Fetcher::SetFetchRange(string range)
+FetcherService::SetFetchRange(string range)
 {
 	_result = curl_easy_strerror(curl_easy_setopt(_pcURL, CURLOPT_RANGE, range.c_str()));
 }
 
-/** Set the user agent to be used. A list of available user agents can be retrieved with Fetcher::GetUserAgents.
+/** Set the user agent to be used. A list of available user agents can be retrieved with FetcherService::GetUserAgents.
 @param agent User agent string
 */
 void
-Fetcher::SetUserAgent(string agent)
+FetcherService::SetUserAgent(string agent)
 {
 	_userAgent = agent;
 	_result = curl_easy_strerror(curl_easy_setopt(_pcURL, CURLOPT_USERAGENT, _userAgent)); // Setting user agent string
@@ -86,7 +88,7 @@ Fetcher::SetUserAgent(string agent)
 @param proxy Example: "http://127.0.0.1:8888/"
 */
 void
-Fetcher::SetProxy(string proxy)
+FetcherService::SetProxy(string proxy)
 {
 	_result = curl_easy_strerror(curl_easy_setopt(_pcURL, CURLOPT_PROXY, proxy.c_str()));
 	//_result = curl_easy_strerror(curl_easy_setopt(_pcURL, CURLOPT_PROXYPORT, "8080"));
@@ -104,7 +106,7 @@ Fetcher::SetProxy(string proxy)
 @return List of user agent strings
 */
 vector<string>
-Fetcher::GetUserAgents()
+FetcherService::GetUserAgents()
 {
 	vector<string> listUserAgents;
 
@@ -156,7 +158,7 @@ https://curl.haxx.se/libcurl/c/ftpgetinfo.html
 @return Page size
 */
 double
-Fetcher::GetPageSize(string url="")
+FetcherService::GetPageSize(string url="")
 {		
 	double * dSize = new double;	
 
@@ -188,7 +190,7 @@ Fetcher::GetPageSize(string url="")
 @return Page content
 */
 string
-Fetcher::GetPage(string url)
+FetcherService::GetPage(string url)
 {					
 	CURLcode rc;
 	_result = curl_easy_strerror(curl_easy_setopt(_pcURL, CURLOPT_URL, url.c_str()));
@@ -213,7 +215,7 @@ Fetcher::GetPage(string url)
 @return Google results page
 */
 string
-Fetcher::Google(string query)
+FetcherService::Google(string query)
 {
 	string url = "http://www.google.co.in/search?q="+query+"&newwindow=1&sa=G&gbv=1";
 	string result = GetPage(url);
@@ -241,7 +243,7 @@ Fetcher::Google(string query)
 @return Buffer Size
 */
 size_t 
-Fetcher::WriteMemoryCallback (void * ptr, 
+FetcherService::WriteMemoryCallback (void * ptr, 
 	                            size_t size, 
 	                            size_t nmemb, 
 	                            void * data)
@@ -264,7 +266,7 @@ Fetcher::WriteMemoryCallback (void * ptr,
 /** Init curl
 */
 void
-Fetcher::InitCurl()
+FetcherService::InitCurl()
 {
 	_result = curl_easy_strerror(curl_global_init(CURL_GLOBAL_ALL)); //Required at the beginning to be able to use libcURL
 
@@ -281,7 +283,7 @@ Fetcher::InitCurl()
 /** Set the necessary curl options
 */
 void
-Fetcher::InitCurlOptions()
+FetcherService::InitCurlOptions()
 {	
 	_result = curl_easy_strerror(curl_easy_setopt(_pcURL, CURLOPT_WRITEFUNCTION, WriteMemoryCallback)); // Passing the function pointer to LC
 	_result = curl_easy_strerror(curl_easy_setopt(_pcURL, CURLOPT_WRITEDATA, (void *)&_output)); // Passing our BufferStruct to LC, PageContent will be stored in it

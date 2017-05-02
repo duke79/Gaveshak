@@ -8,7 +8,7 @@ project (Gaveshak)                                      # Project - Gaveshak
 # SET(MODULE_NAME Gaveshak)
 #                 ^
 ###############################################
-SET(MODULE_NAME Gaveshak)
+SET(MODULE_NAME Utils)
 ###############################################
 
 
@@ -27,7 +27,7 @@ file(GLOB MODULE_SRC
     "include/*.h"
     "src/*.cpp"
 )
-add_executable(${MODULE_NAME} src/main.cpp ${MODULE_SRC})                       # Gaveshak.exe
+add_library(${MODULE_NAME} SHARED ${MODULE_SRC} )                               # Utils.dll
 ###############################################
 
 
@@ -44,9 +44,6 @@ add_executable(${MODULE_NAME} src/main.cpp ${MODULE_SRC})                       
 ###############################################
 include_directories(./include)                                       # Current directory include
 include_directories(./src)                                           # Current directory src
-
-include_directories(${CMAKE_SOURCE_DIR}/src/Utils/include)           # Utils
-include_directories(${CMAKE_SOURCE_DIR}/src/Fetcher/include)         # Fetcher
 
 include_directories(${CMAKE_SOURCE_DIR}/lib/boost)                   # Boost | pre-built boost/boost directory can be downloaded, as building boost is cumbersome
 ###############################################
@@ -93,20 +90,9 @@ include_directories(${CMAKE_SOURCE_DIR}/lib/boost)                   # Boost | p
 #          ^
 #         ${CMAKE_SOURCE_DIR}/bin)								    # <--this is out-file path
 ###############################################
-## Fetcher
-SET(FETCHER ${CMAKE_SOURCE_DIR}/bin/Fetcher)                            #Fetcher
-TARGET_LINK_LIBRARIES(${MODULE_NAME} ${FETCHER})
-
-## Utils
-SET(UTILS ${CMAKE_SOURCE_DIR}/bin/Utils)                                #Utils
-TARGET_LINK_LIBRARIES(${MODULE_NAME} ${UTILS})
-		
 ## Boost
 SET(BOOST_PROGRAM_OPTIONS_RELEASE ${CMAKE_SOURCE_DIR}/lib/boost/stage/lib/libboost_program_options-vc140-mt-1_64)    #Boost::Program_Options : Release
 SET(BOOST_PROGRAM_OPTIONS_DEBUG ${CMAKE_SOURCE_DIR}/lib/boost/stage/lib/libboost_program_options-vc140-mt-gd-1_64)   #Boost::Program_Options : Debug
 SET(BOOST_PROGRAM_OPTIONS optimized ${BOOST_PROGRAM_OPTIONS_RELEASE} debug ${BOOST_PROGRAM_OPTIONS_DEBUG})
 TARGET_LINK_LIBRARIES(${MODULE_NAME} ${BOOST_PROGRAM_OPTIONS})
-
-## shlwapi
-TARGET_LINK_LIBRARIES(${MODULE_NAME} shlwapi.lib)
 ###############################################

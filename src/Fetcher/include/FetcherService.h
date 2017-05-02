@@ -1,11 +1,14 @@
 #ifndef UserAgent_H
 #define UserAgent_H
 
-#include "curl/curl.h"
+#include "Fetcher.h"
+
 #include <vector>
 
 #include "iostream"
 using namespace std;
+
+typedef void CURL;
 
 /**
 @brief Struct for accepting libcURL's output
@@ -30,10 +33,10 @@ A Beginner’s Guide to LibCurl : https://www.hackthissite.org/articles/read/1078
 @author Pulkit Singh
 @date April 2017
 */
-class Fetcher
+class FETCHER_EXPORT FetcherService
 {
 public:	
-	Fetcher();
+	FetcherService();	
 
 	void	
 	SetPOSTFields(char* data);

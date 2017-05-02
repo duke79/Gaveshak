@@ -10,17 +10,17 @@
 #include "boost/foreach.hpp"
 #include "iostream"
 #include "ConsoleFormatter.h"
-#include "Fetcher.h"
+#include "FetcherService.h"
 #include "fstream"
 using namespace std;
 using namespace boost::program_options;
 
 void ParseHelp    (variables_map &vm, options_description &desc);
 void ParseOutput  (variables_map &vm, options_description &desc, string &filepath);
-void ParseProxy   (variables_map &vm, options_description &desc, Fetcher fetcher);
-void ParseFetch   (variables_map &vm, options_description &desc, Fetcher &fetcher, string &filepath);
-void ParseCrawl   (variables_map &vm, options_description &desc, Fetcher fetcher);
-void ParseGoogle  (variables_map &vm, options_description &desc, Fetcher fetcher);
+void ParseProxy   (variables_map &vm, options_description &desc, FetcherService fetcher);
+void ParseFetch   (variables_map &vm, options_description &desc, FetcherService &fetcher, string &filepath);
+void ParseCrawl   (variables_map &vm, options_description &desc, FetcherService fetcher);
+void ParseGoogle  (variables_map &vm, options_description &desc, FetcherService fetcher);
 
 void Gaveshak::ParseArguments(int argc, char* argv[])
 {	
@@ -40,7 +40,7 @@ void Gaveshak::ParseArguments(int argc, char* argv[])
 	notify(vm);					
 
 	string outputFilepath;
-	Fetcher fetcher;	
+	FetcherService fetcher;	
 
 	ParseHelp(vm, desc);
 	ParseOutput(vm, desc, outputFilepath);
@@ -81,7 +81,7 @@ void ParseOutput (variables_map &vm, options_description &desc, string &filepath
 * @use : --proxy
 * @desc: Proxy server
 */
-void ParseProxy(variables_map &vm, options_description &desc, Fetcher fetcher)
+void ParseProxy(variables_map &vm, options_description &desc, FetcherService fetcher)
 {
 	if (vm.count("proxy")) {
 		string proxy = vm["proxy"].as<string>();
@@ -93,7 +93,7 @@ void ParseProxy(variables_map &vm, options_description &desc, Fetcher fetcher)
 * @use : --fetch <page1> <page2> ...
 * @desc: fetch the given pages
 */
-void ParseFetch  (variables_map &vm, options_description &desc, Fetcher &fetcher, string &filepath)
+void ParseFetch  (variables_map &vm, options_description &desc, FetcherService &fetcher, string &filepath)
 {	
 	if (vm.count("fetch")) {
 		string page = vm["fetch"].as<string>();
@@ -123,7 +123,7 @@ void ParseFetch  (variables_map &vm, options_description &desc, Fetcher &fetcher
 * @use : --crawl <page1> <page2> ...
 * @desc: Crawl the given pages
 */
-void ParseCrawl  (variables_map &vm, options_description &desc, Fetcher fetcher)
+void ParseCrawl  (variables_map &vm, options_description &desc, FetcherService fetcher)
 {	
 	if (vm.count("crawl")) {
 		vector<string> pages = vm["crawl"].as< vector<string> >();
@@ -154,7 +154,7 @@ void ParseCrawl  (variables_map &vm, options_description &desc, Fetcher fetcher)
 * @use : --google <query>
 * @desc: Google the given query
 */
-void ParseGoogle (variables_map &vm, options_description &desc, Fetcher fetcher)
+void ParseGoogle (variables_map &vm, options_description &desc, FetcherService fetcher)
 {	
 	if (vm.count("google"))
 	{

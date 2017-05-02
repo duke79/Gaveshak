@@ -8,7 +8,7 @@ project (Gaveshak)                                      # Project - Gaveshak
 # SET(MODULE_NAME Gaveshak)
 #                 ^
 ###############################################
-SET(MODULE_NAME Gaveshak)
+SET(MODULE_NAME Fetcher)
 ###############################################
 
 
@@ -27,7 +27,11 @@ file(GLOB MODULE_SRC
     "include/*.h"
     "src/*.cpp"
 )
-add_executable(${MODULE_NAME} src/main.cpp ${MODULE_SRC})                       # Gaveshak.exe
+file(GLOB TinyXML2_SRC
+    "${CMAKE_SOURCE_DIR}/lib/TinyXML2/*.h"
+    "${CMAKE_SOURCE_DIR}/lib/TinyXML2/*.cpp"
+)
+add_library(${MODULE_NAME} SHARED ${MODULE_SRC} ${TinyXML2_SRC})                               # Fetcher.dll
 ###############################################
 
 
@@ -46,9 +50,10 @@ include_directories(./include)                                       # Current d
 include_directories(./src)                                           # Current directory src
 
 include_directories(${CMAKE_SOURCE_DIR}/src/Utils/include)           # Utils
-include_directories(${CMAKE_SOURCE_DIR}/src/Fetcher/include)         # Fetcher
 
 include_directories(${CMAKE_SOURCE_DIR}/lib/boost)                   # Boost | pre-built boost/boost directory can be downloaded, as building boost is cumbersome
+include_directories(${CMAKE_SOURCE_DIR}/lib/libcURL/include)         # libcURL
+include_directories(${CMAKE_SOURCE_DIR}/lib/TinyXML2)                # TinyXML2
 ###############################################
 
 
@@ -63,7 +68,7 @@ include_directories(${CMAKE_SOURCE_DIR}/lib/boost)                   # Boost | p
 # configure_file(values/UserAgents.xml ${CMAKE_SOURCE_DIR}/bin/values/UserAgents.xml @COPYONLY)
 #                ^                     ^
 ###############################################
-# ...
+file(COPY "values" DESTINATION "${CMAKE_SOURCE_DIR}/bin")
 ###############################################
 
 
@@ -93,13 +98,13 @@ include_directories(${CMAKE_SOURCE_DIR}/lib/boost)                   # Boost | p
 #          ^
 #         ${CMAKE_SOURCE_DIR}/bin)								    # <--this is out-file path
 ###############################################
-## Fetcher
-SET(FETCHER ${CMAKE_SOURCE_DIR}/bin/Fetcher)                            #Fetcher
-TARGET_LINK_LIBRARIES(${MODULE_NAME} ${FETCHER})
-
-## Utils
-SET(UTILS ${CMAKE_SOURCE_DIR}/bin/Utils)                                #Utils
-TARGET_LINK_LIBRARIES(${MODULE_NAME} ${UTILS})
+## libcURL
+SET(CURLLIB ${CMAKE_SOURCE_DIR}/lib/libcURL/lib/libcurl)                                                            #libcurl
+TARGET_LINK_LIBRARIES(${MODULE_NAME} ${CURLLIB})
+add_custom_command(TARGET ${MODULE_NAME} POST_BUILD					# Adds a post-build event to MyTest                  #copy dll to bin
+		COMMAND ${CMAKE_COMMAND} -E copy_if_different			    # which executes "cmake - E copy_if_different..."
+        "${CURLLIB}.dll"		                                    # <--this is in-file
+        ${CMAKE_SOURCE_DIR}/bin)								    # <--this is out-file path
 		
 ## Boost
 SET(BOOST_PROGRAM_OPTIONS_RELEASE ${CMAKE_SOURCE_DIR}/lib/boost/stage/lib/libboost_program_options-vc140-mt-1_64)    #Boost::Program_Options : Release
