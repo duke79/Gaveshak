@@ -4,8 +4,8 @@
 #### Boost *(1.64.0)*
 * Install boost to lib/boost
  https://sourceforge.net/projects/boost/files/boost-binaries/
-* Run boostrap.bat
-* Run b2.exe
+* Run <code>boostrap.bat</code>
+* Run <code>b2.exe link=shared</code>
 
 #### CMake 
 * Download and install **CMake** (minimum version 2.6)
