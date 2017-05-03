@@ -4,6 +4,8 @@
 * Written by Pulkit Singh <pulkitsingh01@gmail.com>, April 2017
 **************************************************************/
 
+#define BOOST_ALL_DYN_LINK
+
 #include <Gaveshak.h>
 
 #include "boost/program_options.hpp"

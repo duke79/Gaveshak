@@ -3,6 +3,8 @@
 
 #include "Utils.h"
 
+#define BOOST_ALL_DYN_LINK
+
 #include "boost/log/expressions.hpp"
 #include "boost/log/core.hpp"
 #include "boost/log/trivial.hpp"
