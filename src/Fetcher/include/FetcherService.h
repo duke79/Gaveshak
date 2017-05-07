@@ -43,13 +43,16 @@ public:
 	SetPOSTFields(char* data);
 	void
 	SetFetchRange(long long first, 
-		     long long last);
+		          long long last);
 	void
 	SetFetchRange(string range);
 	void
-	SetUserAgent(string agent);
+	SetUserAgent (string agent);
 	void
-	SetProxy(string proxy);
+	SetProxy     (string proxy);
+	void
+	SetAbortLimits(long seconds, 
+		           long bytesPerSecond);
 
 	vector<string>
 	GetUserAgents();

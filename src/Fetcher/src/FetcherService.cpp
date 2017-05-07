@@ -107,6 +107,18 @@ FetcherService::SetProxy(string proxy)
 	_result = curl_easy_strerror(curl_easy_setopt(_pcURL, CURLOPT_HTTPHEADER, headers));
 }
 
+/** Set the limits after which transfer aborts
+@param seconds time over which the total trasnferred bytes are to be counted
+@param bytesPerSecond rate of minimum transfer over "seconds", if not transfer aborts
+*/
+void
+FetcherService::SetAbortLimits(long seconds, long bytesPerSecond)
+{
+	/* abort if slower than 'bytesPerSecond' bytes/sec during 'seconds' seconds */
+	_result = curl_easy_strerror(curl_easy_setopt(_pcURL, CURLOPT_LOW_SPEED_TIME, seconds));
+	_result = curl_easy_strerror(curl_easy_setopt(_pcURL, CURLOPT_LOW_SPEED_LIMIT, bytesPerSecond));
+}
+
 /** Get the list of User Agent Strings (representing browser identification).
 @return List of user agent strings
 */
@@ -311,4 +323,6 @@ FetcherService::InitCurlOptions()
 	//_result = curl_easy_strerror(curl_easy_setopt(_pcURL, CURLOPT_VERBOSE, 1));	
 	//CURLOPT_ACCEPT_ENCODING not available before 7.21.6
 	//_result = curl_easy_strerror(curl_easy_setopt(_pcURL, CURLOPT_ACCEPT_ENCODING, "deflate")); //requests the server to compress its response using the zlib algorithm
+
+	SetAbortLimits(5, 100000); // abort if for 5 seconds transfer rate is below 100kb/sec
 }
