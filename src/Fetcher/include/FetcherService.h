@@ -37,6 +37,7 @@ class FETCHER_EXPORT FetcherService
 {
 public:	
 	FetcherService();	
+	~FetcherService();
 
 	void	
 	SetPOSTFields(char* data);

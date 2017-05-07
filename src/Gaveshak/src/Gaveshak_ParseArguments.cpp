@@ -8,6 +8,7 @@
 
 #include <Gaveshak.h>
 
+#include "Logger.h"
 #include "boost/program_options.hpp"
 #include "boost/foreach.hpp"
 #include "iostream"
@@ -19,9 +20,10 @@ using namespace boost::program_options;
 
 void ParseHelp    (variables_map &vm, options_description &desc);
 void ParseOutput  (variables_map &vm, options_description &desc, string &filepath);
-void ParseProxy   (variables_map &vm, options_description &desc, FetcherService fetcher);
+void ParseProxy   (variables_map &vm, options_description &desc, FetcherService &fetcher);
 void ParseFetch   (variables_map &vm, options_description &desc, FetcherService &fetcher, string &filepath);
 void ParseCrawl   (variables_map &vm, options_description &desc, FetcherService &fetcher);
+vector<string> FindLinks(string &pageContent);
 void ParseGoogle  (variables_map &vm, options_description &desc, FetcherService &fetcher);
 
 void Gaveshak::ParseArguments(int argc, char* argv[])
@@ -83,7 +85,7 @@ void ParseOutput (variables_map &vm, options_description &desc, string &filepath
 * @use : --proxy
 * @desc: Proxy server
 */
-void ParseProxy(variables_map &vm, options_description &desc, FetcherService fetcher)
+void ParseProxy(variables_map &vm, options_description &desc, FetcherService &fetcher)
 {
 	if (vm.count("proxy")) {
 		string proxy = vm["proxy"].as<string>();
@@ -137,15 +139,19 @@ void ParseCrawl  (variables_map &vm, options_description &desc, FetcherService &
 
 		ConsoleFormatter CF;
 
+		/*
 		cout << "Crawling the following ";
 		CF.SetColor(COUT_IN_WHITE);
 		cout << pages.size();
 		CF.Reset();
 		cout << " page(s) : \n";
+		*/
 
-		BOOST_FOREACH(string page, pages)
+		for(int i=0;i<pages.size();i++)
 		{
-			cout << "URL: " << page << endl;
+			string page = pages[i];
+			cout << page;
+			LOG_T << " : " << pages.size() << endl;
 			string pPageContent = fetcher.GetPage(page);
 			int pageContentSize = pPageContent.size();
 			//cout << pPageContent;
@@ -153,22 +159,36 @@ void ParseCrawl  (variables_map &vm, options_description &desc, FetcherService &
 			/** Find all the links
 			*/
 			// Parse the page
-			CDocument doc;
-			doc.parse(pPageContent.c_str());
-
-			// Select the links
-			CSelection linkNodes = doc.find("a");
-			for (int i = 0; i < linkNodes.nodeNum(); i++)
-			{
-				std::cout << "Found: ";
-				std::cout << linkNodes.nodeAt(i).text() << std::endl; // some link
-			}
+			vector<string> links = FindLinks(pPageContent);			
+			pages.insert(pages.end(), links.begin(), links.end());
 		}
 
 		//cout << "Press any key to exit...";
 		//cin.get(); //wait
 	}
 
+}
+
+vector<string> FindLinks(string &pageContent)
+{
+	vector<string> links;
+
+	CDocument doc;
+	doc.parse(pageContent.c_str());
+
+	// Select the links
+	CSelection linkNodes = doc.find("a");
+	for (int i = 0; i < linkNodes.nodeNum(); i++)
+	{
+		/*
+		std::cout << "Found: ";
+		std::cout << linkNodes.nodeAt(i).text() << std::endl; // some link
+		std::cout << linkNodes.nodeAt(i).attribute("href") << std::endl << std::endl;
+		*/
+
+		links.push_back(linkNodes.nodeAt(i).attribute("href"));
+	}
+	return links;
 }
 
 /*

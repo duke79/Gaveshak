@@ -2,6 +2,7 @@
 #define Logger_H
 
 #include "Utils.h"
+#include "Globals.h"
 
 #define BOOST_ALL_DYN_LINK
 

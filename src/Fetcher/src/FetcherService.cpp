@@ -21,6 +21,11 @@ FetcherService::FetcherService()
 	InitCurl();
 }
 
+FetcherService::~FetcherService()
+{
+	curl_easy_cleanup(_pcURL);
+}
+
 /** Use to set the POST fields before making an http/https connection.
 @param data URI string with post fields. Example: "username=your_username_here&password=your_password_here"
 */
@@ -196,8 +201,7 @@ FetcherService::GetPage(string url)
 	_result = curl_easy_strerror(curl_easy_setopt(_pcURL, CURLOPT_URL, url.c_str()));
 	_result = curl_easy_strerror(rc=curl_easy_perform(_pcURL));	
 	if (CURLE_OK != rc)
-		LOG_E << _result;
-	curl_easy_cleanup(_pcURL);
+		LOG_E << _result;	
 	string pPage;
 	if (_output.buffer)
 	{
