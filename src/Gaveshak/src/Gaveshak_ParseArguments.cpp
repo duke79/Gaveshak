@@ -21,8 +21,8 @@ void ParseHelp    (variables_map &vm, options_description &desc);
 void ParseOutput  (variables_map &vm, options_description &desc, string &filepath);
 void ParseProxy   (variables_map &vm, options_description &desc, FetcherService fetcher);
 void ParseFetch   (variables_map &vm, options_description &desc, FetcherService &fetcher, string &filepath);
-void ParseCrawl   (variables_map &vm, options_description &desc, FetcherService fetcher);
-void ParseGoogle  (variables_map &vm, options_description &desc, FetcherService fetcher);
+void ParseCrawl   (variables_map &vm, options_description &desc, FetcherService &fetcher);
+void ParseGoogle  (variables_map &vm, options_description &desc, FetcherService &fetcher);
 
 void Gaveshak::ParseArguments(int argc, char* argv[])
 {	
@@ -121,11 +121,15 @@ void ParseFetch  (variables_map &vm, options_description &desc, FetcherService &
 	}
 }
 
+
+#include "Parser.h"
+#include "Document.h"
+#include "Node.h"
 /*
 * @use : --crawl <page1> <page2> ...
 * @desc: Crawl the given pages
 */
-void ParseCrawl  (variables_map &vm, options_description &desc, FetcherService fetcher)
+void ParseCrawl  (variables_map &vm, options_description &desc, FetcherService &fetcher)
 {	
 	if (vm.count("crawl")) {
 		vector<string> pages = vm["crawl"].as< vector<string> >();
@@ -143,7 +147,22 @@ void ParseCrawl  (variables_map &vm, options_description &desc, FetcherService f
 		{
 			cout << "URL: " << page << endl;
 			string pPageContent = fetcher.GetPage(page);
+			int pageContentSize = pPageContent.size();
 			//cout << pPageContent;
+			
+			/** Find all the links
+			*/
+			// Parse the page
+			CDocument doc;
+			doc.parse(pPageContent.c_str());
+
+			// Select the links
+			CSelection linkNodes = doc.find("a");
+			for (int i = 0; i < linkNodes.nodeNum(); i++)
+			{
+				std::cout << "Found: ";
+				std::cout << linkNodes.nodeAt(i).text() << std::endl; // some link
+			}
 		}
 
 		//cout << "Press any key to exit...";
@@ -156,7 +175,7 @@ void ParseCrawl  (variables_map &vm, options_description &desc, FetcherService f
 * @use : --google <query>
 * @desc: Google the given query
 */
-void ParseGoogle (variables_map &vm, options_description &desc, FetcherService fetcher)
+void ParseGoogle (variables_map &vm, options_description &desc, FetcherService &fetcher)
 {	
 	if (vm.count("google"))
 	{
