@@ -8,7 +8,7 @@ project (Gaveshak)                                      # Project - Gaveshak
 # SET(MODULE_NAME Gaveshak)
 #                 ^
 ###############################################
-SET(MODULE_NAME Gaveshak)
+SET(MODULE_NAME Parser)
 ###############################################
 
 
@@ -27,7 +27,7 @@ file(GLOB MODULE_SRC
     "include/*.h"
     "src/*.cpp"
 )
-add_executable(${MODULE_NAME} src/main.cpp ${MODULE_SRC})                       # Gaveshak.exe
+add_library(${MODULE_NAME} SHARED ${MODULE_SRC})                    # Parser.dll
 ###############################################
 
 
@@ -46,10 +46,10 @@ include_directories(./include)                                       # Current d
 include_directories(./src)                                           # Current directory src
 
 include_directories(${CMAKE_SOURCE_DIR}/src/Utils/include)           # Utils
-include_directories(${CMAKE_SOURCE_DIR}/src/Fetcher/include)         # Fetcher
-include_directories(${CMAKE_SOURCE_DIR}/src/Parser/include)          # Parser
 
 include_directories(${CMAKE_SOURCE_DIR}/lib/boost)                   # Boost | pre-built boost/boost directory can be downloaded, as building boost is cumbersome
+
+include_directories(${CMAKE_SOURCE_DIR}/lib/gumbo/include)           # gumbo
 ###############################################
 
 
@@ -64,7 +64,7 @@ include_directories(${CMAKE_SOURCE_DIR}/lib/boost)                   # Boost | p
 # configure_file(values/UserAgents.xml ${CMAKE_SOURCE_DIR}/bin/values/UserAgents.xml @COPYONLY)
 #                ^                     ^
 ###############################################
-# ...
+#file(COPY "values" DESTINATION "${CMAKE_SOURCE_DIR}/bin")
 ###############################################
 
 
@@ -93,30 +93,16 @@ include_directories(${CMAKE_SOURCE_DIR}/lib/boost)                   # Boost | p
 #         "${CURLLIB}.dll"		                                    # <--this is in-file
 #          ^
 #         ${CMAKE_SOURCE_DIR}/bin)								    # <--this is out-file path
-###############################################
-## Fetcher
-SET(FETCHER ${CMAKE_SOURCE_DIR}/bin/Fetcher)                            #Fetcher
-TARGET_LINK_LIBRARIES(${MODULE_NAME} ${FETCHER})
-
-## Utils
-SET(UTILS ${CMAKE_SOURCE_DIR}/bin/Utils)                                #Utils
-TARGET_LINK_LIBRARIES(${MODULE_NAME} ${UTILS})
-
-## Parser
-SET(PARSER ${CMAKE_SOURCE_DIR}/bin/Parser)                              #Parser
-TARGET_LINK_LIBRARIES(${MODULE_NAME} ${PARSER})
-		
-## Boost                                                                        
-SET(BOOST_PROGRAM_OPTIONS_RELEASE ${CMAKE_SOURCE_DIR}/lib/boost/stage/lib/boost_program_options-vc140-mt-1_64)    #Boost::Program_Options : Release
-SET(BOOST_PROGRAM_OPTIONS_DEBUG ${CMAKE_SOURCE_DIR}/lib/boost/stage/lib/boost_program_options-vc140-mt-gd-1_64)   #Boost::Program_Options : Debug
-SET(BOOST_PROGRAM_OPTIONS optimized ${BOOST_PROGRAM_OPTIONS_RELEASE} debug ${BOOST_PROGRAM_OPTIONS_DEBUG})
-TARGET_LINK_LIBRARIES(${MODULE_NAME} ${BOOST_PROGRAM_OPTIONS})
-
-SET(BOOST_LOG_RELEASE ${CMAKE_SOURCE_DIR}/lib/boost/stage/lib/boost_log-vc140-mt-1_64)    #Boost::Program_Options : Release
-SET(BOOST_LOG_DEBUG ${CMAKE_SOURCE_DIR}/lib/boost/stage/lib/boost_log-vc140-mt-gd-1_64)   #Boost::Program_Options : Debug
+###############################################		
+## Boost
+SET(BOOST_LOG_RELEASE ${CMAKE_SOURCE_DIR}/lib/boost/stage/lib/boost_log-vc140-mt-1_64)    #Boost::Log : Release
+SET(BOOST_LOG_DEBUG ${CMAKE_SOURCE_DIR}/lib/boost/stage/lib/boost_log-vc140-mt-gd-1_64)   #Boost::Log : Debug
 SET(BOOST_LOG optimized ${BOOST_LOG_RELEASE} debug ${BOOST_LOG_DEBUG})
 TARGET_LINK_LIBRARIES(${MODULE_NAME} ${BOOST_LOG})
 
-## shlwapi
-TARGET_LINK_LIBRARIES(${MODULE_NAME} shlwapi.lib)
+# Gumbo
+SET(GUMBO_RELEASE ${CMAKE_SOURCE_DIR}/lib/gumbo/lib/gumbo_release)                #Gumbo : Release
+SET(GUMBO_DEBUG ${CMAKE_SOURCE_DIR}/lib/gumbo/lib/gumbo_debug)                    #Gumbo : Debug
+SET(BOOST_LOG optimized ${GUMBO_RELEASE} debug ${GUMBO_DEBUG})
+TARGET_LINK_LIBRARIES(${MODULE_NAME} ${GUMBO_RELEASE})
 ###############################################

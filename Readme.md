@@ -38,6 +38,19 @@
   - builds/libcurl-vc14-x86-release-dll-ipv6-sspi-winssl/lib/libcurl.lib
   - builds/libcurl-vc14-x86-release-dll-ipv6-sspi-winssl/lib/libcurl.exp
 
+#### Gumbo-Parser (0.10.1)
+* Download repository from https://github.com/google/gumbo-parser
+* Open VS project in  **/visualc** and build it to get *gumbo.lib*
+  - Build two variants of **gumbo.lib**, ie. *debug & release* { gumbo_debug.lib & gumbo_release.lib }
+  - Gumbo doesn't export symbols, so DLL is not usable
+  
+* Copy these libraries to Gaveshak/lib/gumbo/lib
+* COpy all .h files from gumbo/src to Gaveshak/lib/gumbo/include
+
+#### Gumbo-Query (Couldn't get it to work!)
+* Download repository from https://github.com/lazytiger/gumbo-query
+* Build: http://stackoverflow.com/questions/29839733/vc-problems-using-gumbo-query-linking-error
+
 ##### #Copy files#
 * Put these generated files in **lib/libcURL/lib**
 * Copy headers from 

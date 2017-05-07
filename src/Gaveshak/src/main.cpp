@@ -6,8 +6,14 @@
 
 #include "Gaveshak.h"
 
+#include "Parser.h"
+
 int main(int argc, char* argv[]) {
-	Gaveshak * pGaveshak = new Gaveshak();
-	pGaveshak->ParseArguments(argc,argv);	
+	//Gaveshak * pGaveshak = new Gaveshak();
+	//pGaveshak->ParseArguments(argc,argv);	
+
+	Parser parser;
+	parser.Parse();
+
 	return 0;
 }
