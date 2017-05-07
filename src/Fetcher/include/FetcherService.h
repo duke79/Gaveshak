@@ -51,8 +51,10 @@ public:
 	void
 	SetProxy     (string proxy);
 	void
-	SetAbortLimits(long seconds, 
+	SetMinSpeedLimit(long seconds, 
 		           long bytesPerSecond);
+	void
+	SetMaxFilesizeLimit(long size);
 
 	vector<string>
 	GetUserAgents();

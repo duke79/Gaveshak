@@ -112,11 +112,20 @@ FetcherService::SetProxy(string proxy)
 @param bytesPerSecond rate of minimum transfer over "seconds", if not transfer aborts
 */
 void
-FetcherService::SetAbortLimits(long seconds, long bytesPerSecond)
+FetcherService::SetMinSpeedLimit(long seconds, long bytesPerSecond)
 {
 	/* abort if slower than 'bytesPerSecond' bytes/sec during 'seconds' seconds */
 	_result = curl_easy_strerror(curl_easy_setopt(_pcURL, CURLOPT_LOW_SPEED_TIME, seconds));
 	_result = curl_easy_strerror(curl_easy_setopt(_pcURL, CURLOPT_LOW_SPEED_LIMIT, bytesPerSecond));
+}
+
+/** Set the maximum file size. Aborts for a file bigger than that. (File size must be known in advance for this to work)
+@param size
+*/
+void
+FetcherService::SetMaxFilesizeLimit(long size)
+{
+	_result = curl_easy_strerror(curl_easy_setopt(_pcURL, CURLOPT_MAXFILESIZE,size));
 }
 
 /** Get the list of User Agent Strings (representing browser identification).
@@ -322,7 +331,5 @@ FetcherService::InitCurlOptions()
 	_result = curl_easy_strerror(curl_easy_setopt(_pcURL, CURLOPT_COOKIEFILE, "")); //Enabling the cookie engine, null string starts the engine wihout some prior cookies
 	//_result = curl_easy_strerror(curl_easy_setopt(_pcURL, CURLOPT_VERBOSE, 1));	
 	//CURLOPT_ACCEPT_ENCODING not available before 7.21.6
-	//_result = curl_easy_strerror(curl_easy_setopt(_pcURL, CURLOPT_ACCEPT_ENCODING, "deflate")); //requests the server to compress its response using the zlib algorithm
-
-	SetAbortLimits(5, 100000); // abort if for 5 seconds transfer rate is below 100kb/sec
+	//_result = curl_easy_strerror(curl_easy_setopt(_pcURL, CURLOPT_ACCEPT_ENCODING, "deflate")); //requests the server to compress its response using the zlib algorithm	
 }

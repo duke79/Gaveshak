@@ -154,6 +154,8 @@ void ParseCrawl  (variables_map &vm, options_description &desc, FetcherService &
 			string page = *it;
 			LOG_T << std::distance(pages.begin(), it) << " of " << pages.size();
 			LOG_T << page << endl;
+			fetcher.SetMaxFilesizeLimit(2000000); //smaller than 2 MBs
+			fetcher.SetMinSpeedLimit(2, 30000); // abort if for 2 seconds transfer rate is below 30kb/sec
 			string pPageContent = fetcher.GetPage(page);
 			int pageContentSize = pPageContent.size();
 			//LOG_T << pPageContent;
@@ -164,7 +166,6 @@ void ParseCrawl  (variables_map &vm, options_description &desc, FetcherService &
 			set<string> links = FindLinks(pPageContent);			
 			pages.insert(links.begin(), links.end());
 		}
-
 		//cout << "Press any key to exit...";
 		//cin.get(); //wait
 	}
