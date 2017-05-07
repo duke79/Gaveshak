@@ -48,9 +48,11 @@ GaveshakNS::URL::ExtractURLs(string html)
 	bool isMatchFound = std::regex_search(html, result, urlRegEx);
 	*/
 
+	/*
 	string urlPattern = "(?:(?:https?|ftp|file):\/\/|www\.|ftp\.)(?:\\([-A-Z0-9+&@#\/%=~_|$?!:,.]*\)|[-A-Z0-9+&@#\/%=~_|$?!:,.])*(?:\([-A-Z0-9+&@#\/%=~_|$?!:,.]*\)|[A-Z0-9+&@#\/%=~_|$])";
 	std::regex urlRegEx1(urlPattern);
 	bool isMatchFound = std::regex_search(html, result, urlRegEx1);
+	*/
 
 	/*
 	urlPattern = "https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&\/\/=]*)";
@@ -72,6 +74,7 @@ GaveshakNS::URL::ExtractURLs(string html)
 	*/
 
 	
+	/*
 	if (isMatchFound)
 	{
 		for (unsigned int i = 0; i < result.size(); i++)
@@ -80,6 +83,19 @@ GaveshakNS::URL::ExtractURLs(string html)
 			cout << "WHAT " << i << " " << *result[i].first << endl;
 			cout << "WHAT " << i << " " << *result[i].second << endl;
 		}
+	}
+	*/
+
+	std::string s = html;
+	//std::regex r("(?:(?:https?|ftp|file):\/\/|www\.|ftp\.)(?:\([-A-Z0-9+&@#\/%=~_|$?!:,.]*\)|[-A-Z0-9+&@#\/%=~_|$?!:,.])*(?:\([-A-Z0-9+&@#\/%=~_|$?!:,.]*\)|[A-Z0-9+&@#\/%=~_|$])");
+	std::regex r("(?:(?:https?|ftp|file)://)");
+
+	for (std::sregex_iterator i = std::sregex_iterator(s.begin(), s.end(), r);
+		i != std::sregex_iterator();
+		++i)
+	{
+		std::smatch m = *i;
+		std::cout << m.str() << " at position " << m.position() << '\n';
 	}
 
 	return listURLs;
