@@ -23,7 +23,7 @@ void ParseOutput  (variables_map &vm, options_description &desc, string &filepat
 void ParseProxy   (variables_map &vm, options_description &desc, FetcherService &fetcher);
 void ParseFetch   (variables_map &vm, options_description &desc, FetcherService &fetcher, string &filepath);
 void ParseCrawl   (variables_map &vm, options_description &desc, FetcherService &fetcher);
-vector<string> FindLinks(string &pageContent);
+set<string> FindLinks(string &pageContent);
 void ParseGoogle  (variables_map &vm, options_description &desc, FetcherService &fetcher);
 
 void Gaveshak::ParseArguments(int argc, char* argv[])
@@ -127,6 +127,7 @@ void ParseFetch  (variables_map &vm, options_description &desc, FetcherService &
 #include "Parser.h"
 #include "Document.h"
 #include "Node.h"
+#include <unordered_set>
 /*
 * @use : --crawl <page1> <page2> ...
 * @desc: Crawl the given pages
@@ -134,7 +135,8 @@ void ParseFetch  (variables_map &vm, options_description &desc, FetcherService &
 void ParseCrawl  (variables_map &vm, options_description &desc, FetcherService &fetcher)
 {	
 	if (vm.count("crawl")) {
-		vector<string> pages = vm["crawl"].as< vector<string> >();
+		vector<string> pagesVector = vm["crawl"].as< vector<string> >();
+		unordered_set<string> pages(pagesVector.begin(), pagesVector.end());
 
 
 		ConsoleFormatter CF;
@@ -147,10 +149,10 @@ void ParseCrawl  (variables_map &vm, options_description &desc, FetcherService &
 		cout << " page(s) : \n";
 		*/
 
-		for(int i=0;i<pages.size();i++)
+		for (unordered_set<string>::iterator it = pages.begin(); it != pages.end(); ++it)
 		{
-			string page = pages[i];
-			LOG_T << i << " of " << pages.size();
+			string page = *it;
+			LOG_T << std::distance(pages.begin(), it) << " of " << pages.size();
 			LOG_T << page << endl;
 			string pPageContent = fetcher.GetPage(page);
 			int pageContentSize = pPageContent.size();
@@ -159,8 +161,8 @@ void ParseCrawl  (variables_map &vm, options_description &desc, FetcherService &
 			/** Find all the links
 			*/
 			// Parse the page
-			vector<string> links = FindLinks(pPageContent);			
-			pages.insert(pages.end(), links.begin(), links.end());
+			set<string> links = FindLinks(pPageContent);			
+			pages.insert(links.begin(), links.end());
 		}
 
 		//cout << "Press any key to exit...";
@@ -169,9 +171,9 @@ void ParseCrawl  (variables_map &vm, options_description &desc, FetcherService &
 
 }
 
-vector<string> FindLinks(string &pageContent)
+set<string> FindLinks(string &pageContent)
 {
-	vector<string> links;
+	set<string> links;
 
 	CDocument doc;
 	doc.parse(pageContent.c_str());
@@ -186,7 +188,7 @@ vector<string> FindLinks(string &pageContent)
 		LOG_T << linkNodes.nodeAt(i).attribute("href") << std::endl << std::endl;
 		*/
 
-		links.push_back(linkNodes.nodeAt(i).attribute("href"));
+		links.insert(linkNodes.nodeAt(i).attribute("href"));
 	}
 	return links;
 }
