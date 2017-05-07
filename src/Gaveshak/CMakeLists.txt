@@ -48,6 +48,7 @@ include_directories(./src)                                           # Current d
 include_directories(${CMAKE_SOURCE_DIR}/src/Utils/include)           # Utils
 include_directories(${CMAKE_SOURCE_DIR}/src/Fetcher/include)         # Fetcher
 include_directories(${CMAKE_SOURCE_DIR}/src/Parser/include)          # Parser
+include_directories(${CMAKE_SOURCE_DIR}/lib/gumbo/include)           # gumbo
 
 include_directories(${CMAKE_SOURCE_DIR}/lib/boost)                   # Boost | pre-built boost/boost directory can be downloaded, as building boost is cumbersome
 ###############################################

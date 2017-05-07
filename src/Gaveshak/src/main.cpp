@@ -9,11 +9,8 @@
 #include "Parser.h"
 
 int main(int argc, char* argv[]) {
-	//Gaveshak * pGaveshak = new Gaveshak();
-	//pGaveshak->ParseArguments(argc,argv);	
-
-	Parser parser;
-	parser.Parse();
+	Gaveshak * pGaveshak = new Gaveshak();
+	pGaveshak->ParseArguments(argc,argv);	
 
 	return 0;
 }
