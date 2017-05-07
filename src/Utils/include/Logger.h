@@ -1,7 +1,7 @@
 #ifndef Logger_H
 #define Logger_H
 
-#include "Utils.h"
+#include "Utils_Export.h"
 #include "Globals.h"
 
 #define BOOST_ALL_DYN_LINK

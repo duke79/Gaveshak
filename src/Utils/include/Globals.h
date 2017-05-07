@@ -1,7 +1,7 @@
 #ifndef Globals_H
 #define Globals_H
 
-#include "Utils.h"
+#include "Utils_Export.h"
 
 #include <string>
 #include "Logger.h";

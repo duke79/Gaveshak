@@ -13,18 +13,18 @@
 #include "boost/foreach.hpp"
 #include "iostream"
 #include "ConsoleFormatter.h"
-#include "FetcherService.h"
+#include "Fetcher.h"
 #include "fstream"
 using namespace std;
 using namespace boost::program_options;
 
 void ParseHelp    (variables_map &vm, options_description &desc);
 void ParseOutput  (variables_map &vm, options_description &desc, string &filepath);
-void ParseProxy   (variables_map &vm, options_description &desc, FetcherService &fetcher);
-void ParseFetch   (variables_map &vm, options_description &desc, FetcherService &fetcher, string &filepath);
-void ParseCrawl   (variables_map &vm, options_description &desc, FetcherService &fetcher);
+void ParseProxy   (variables_map &vm, options_description &desc, Fetcher &fetcher);
+void ParseFetch   (variables_map &vm, options_description &desc, Fetcher &fetcher, string &filepath);
+void ParseCrawl   (variables_map &vm, options_description &desc, Fetcher &fetcher);
 set<string> FindLinks(string &pageContent);
-void ParseGoogle  (variables_map &vm, options_description &desc, FetcherService &fetcher);
+void ParseGoogle  (variables_map &vm, options_description &desc, Fetcher &fetcher);
 
 void Gaveshak::ParseArguments(int argc, char* argv[])
 {	
@@ -44,7 +44,7 @@ void Gaveshak::ParseArguments(int argc, char* argv[])
 	notify(vm);					
 
 	string outputFilepath;
-	FetcherService fetcher;	
+	Fetcher fetcher;	
 
 	ParseHelp(vm, desc);
 	ParseOutput(vm, desc, outputFilepath);
@@ -85,7 +85,7 @@ void ParseOutput (variables_map &vm, options_description &desc, string &filepath
 * @use : --proxy
 * @desc: Proxy server
 */
-void ParseProxy(variables_map &vm, options_description &desc, FetcherService &fetcher)
+void ParseProxy(variables_map &vm, options_description &desc, Fetcher &fetcher)
 {
 	if (vm.count("proxy")) {
 		string proxy = vm["proxy"].as<string>();
@@ -97,7 +97,7 @@ void ParseProxy(variables_map &vm, options_description &desc, FetcherService &fe
 * @use : --fetch <page1> <page2> ...
 * @desc: fetch the given pages
 */
-void ParseFetch  (variables_map &vm, options_description &desc, FetcherService &fetcher, string &filepath)
+void ParseFetch  (variables_map &vm, options_description &desc, Fetcher &fetcher, string &filepath)
 {	
 	if (vm.count("fetch")) {
 		string page = vm["fetch"].as<string>();
@@ -128,11 +128,12 @@ void ParseFetch  (variables_map &vm, options_description &desc, FetcherService &
 #include "Document.h"
 #include "Node.h"
 #include <unordered_set>
+#include "URL.h"
 /*
 * @use : --crawl <page1> <page2> ...
 * @desc: Crawl the given pages
 */
-void ParseCrawl  (variables_map &vm, options_description &desc, FetcherService &fetcher)
+void ParseCrawl  (variables_map &vm, options_description &desc, Fetcher &fetcher)
 {	
 	if (vm.count("crawl")) {
 		vector<string> pagesVector = vm["crawl"].as< vector<string> >();
@@ -153,7 +154,8 @@ void ParseCrawl  (variables_map &vm, options_description &desc, FetcherService &
 		{
 			string page = *it;
 			LOG_T << std::distance(pages.begin(), it) << " of " << pages.size();
-			LOG_T << page << endl;
+			LOG_T << page << endl;			
+
 			fetcher.SetMaxFilesizeLimit(2000000); //smaller than 2 MBs
 			fetcher.SetMinSpeedLimit(2, 30000); // abort if for 2 seconds transfer rate is below 30kb/sec
 			string pPageContent = fetcher.GetPage(page);
@@ -162,9 +164,12 @@ void ParseCrawl  (variables_map &vm, options_description &desc, FetcherService &
 			
 			/** Find all the links
 			*/
-			// Parse the page
+			// Parse the page using gumbo-query
 			set<string> links = FindLinks(pPageContent);			
 			pages.insert(links.begin(), links.end());
+			// Parse the page using regex
+			set<GaveshakNS::URL> linksURL = GaveshakNS::URL::ExtractURLs(page);
+			pages.insert(linksURL.begin(), linksURL.end());
 		}
 		//cout << "Press any key to exit...";
 		//cin.get(); //wait
@@ -198,7 +203,7 @@ set<string> FindLinks(string &pageContent)
 * @use : --google <query>
 * @desc: Google the given query
 */
-void ParseGoogle (variables_map &vm, options_description &desc, FetcherService &fetcher)
+void ParseGoogle (variables_map &vm, options_description &desc, Fetcher &fetcher)
 {	
 	if (vm.count("google"))
 	{
