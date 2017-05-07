@@ -150,11 +150,11 @@ void ParseCrawl  (variables_map &vm, options_description &desc, FetcherService &
 		for(int i=0;i<pages.size();i++)
 		{
 			string page = pages[i];
-			cout << page;
-			LOG_T << " : " << pages.size() << endl;
+			LOG_T << i << " of " << pages.size();
+			LOG_T << page << endl;
 			string pPageContent = fetcher.GetPage(page);
 			int pageContentSize = pPageContent.size();
-			//cout << pPageContent;
+			//LOG_T << pPageContent;
 			
 			/** Find all the links
 			*/
@@ -179,11 +179,11 @@ vector<string> FindLinks(string &pageContent)
 	// Select the links
 	CSelection linkNodes = doc.find("a");
 	for (int i = 0; i < linkNodes.nodeNum(); i++)
-	{
+	{		
 		/*
-		std::cout << "Found: ";
-		std::cout << linkNodes.nodeAt(i).text() << std::endl; // some link
-		std::cout << linkNodes.nodeAt(i).attribute("href") << std::endl << std::endl;
+		LOG_T << "Found: ";
+		LOG_T << linkNodes.nodeAt(i).text() << std::endl; // some link
+		LOG_T << linkNodes.nodeAt(i).attribute("href") << std::endl << std::endl;
 		*/
 
 		links.push_back(linkNodes.nodeAt(i).attribute("href"));

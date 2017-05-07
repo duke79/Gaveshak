@@ -43,6 +43,7 @@ public:
 	void AddLogFile(string file);
 	void SetMinSeverity(boost::log::trivial::severity_level severity);
 	void EnableLogging(bool enable);
+	void EnableConsole(bool enable);
 
 	/** Helper functions for custom log macro
 	*/

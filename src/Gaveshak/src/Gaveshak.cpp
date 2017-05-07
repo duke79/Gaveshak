@@ -26,6 +26,7 @@ Gaveshak::Gaveshak()
 	//Logger
 	_Logger = new Logger();
 	_Logger->SetMinSeverity(SEV_TRACE);
+	_Logger->EnableConsole(true);
 }
 
 Gaveshak::~Gaveshak()

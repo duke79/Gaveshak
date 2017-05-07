@@ -12,6 +12,8 @@
 #include <boost/log/utility/setup/common_attributes.hpp>
 #include <boost/date_time/posix_time/posix_time_types.hpp>
 #include <boost/log/support/date_time.hpp>
+#include <boost/log/core/core.hpp>
+#include <boost/utility/empty_deleter.hpp>
 
 Logger::Logger()
 {	
@@ -55,5 +57,21 @@ void Logger::EnableLogging(bool enable)
 	else //disable logging
 	{
 		boost::log::core::get()->set_filter(boost::log::trivial::severity > SEV_FATAL);
+	}
+}
+
+void Logger::EnableConsole(bool enable)
+{
+	if (enable == true) //enable logging above the last set known mininum severity level
+	{
+		typedef boost::log::sinks::synchronous_sink< boost::log::sinks::text_ostream_backend > text_sink;
+		boost::shared_ptr<text_sink> sink = boost::make_shared<text_sink>();
+		sink->locked_backend()->add_stream(
+			boost::shared_ptr<std::ostream>(&std::cout, boost::empty_deleter()));
+		boost::log::core::get()->add_sink(sink);
+	}
+	else //disable logging
+	{
+		//boost::log::core::get()->add_sink(sink);
 	}
 }
