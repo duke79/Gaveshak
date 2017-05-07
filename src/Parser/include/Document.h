@@ -16,11 +16,13 @@
 #ifndef DOCUMENT_H_
 #define DOCUMENT_H_
 
+#include "Parser_Export.h"
+
 #include <gumbo.h>
 #include <string>
 #include "Selection.h"
 
-class CDocument: public CObject
+class PARSER_EXPORT CDocument: public CObject
 {
 	public:
 

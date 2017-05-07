@@ -16,6 +16,8 @@
 #ifndef SELECTION_H_
 #define SELECTION_H_
 
+#include "Parser_Export.h"
+
 #include "Object.h"
 #include <vector>
 #include <string>
@@ -23,7 +25,7 @@
 
 class CNode;
 
-class CSelection: public CObject
+class PARSER_EXPORT CSelection: public CObject
 {
 
 	public:

@@ -47,9 +47,11 @@
 * Copy these libraries to Gaveshak/lib/gumbo/lib
 * COpy all .h files from gumbo/src to Gaveshak/lib/gumbo/include
 
-#### Gumbo-Query (Couldn't get it to work!)
+#### Gumbo-Query
 * Download repository from https://github.com/lazytiger/gumbo-query
-* Build: http://stackoverflow.com/questions/29839733/vc-problems-using-gumbo-query-linking-error
+* Copy the headers to *Gaveshak/src/Parser/include*
+* Copy the .cpp files to *Gaveshak/src/Parser/src*
+* Export all the classes of Gumbo-Query (Document, Node, ...)
 
 ##### #Copy files#
 * Put these generated files in **lib/libcURL/lib**

@@ -16,7 +16,9 @@
 #ifndef OBJECT_H_
 #define OBJECT_H_
 
-class CObject
+#include "Parser_Export.h"
+
+class PARSER_EXPORT CObject
 {
 	public:
 

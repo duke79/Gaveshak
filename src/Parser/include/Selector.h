@@ -16,12 +16,14 @@
 #ifndef SELECTOR_H_
 #define SELECTOR_H_
 
+#include "Parser_Export.h"
+
 #include <gumbo.h>
 #include <string>
 #include <vector>
 #include "Object.h"
 
-class CSelector: public CObject
+class PARSER_EXPORT CSelector: public CObject
 {
 
 	public:

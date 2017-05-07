@@ -16,12 +16,14 @@
 #ifndef NODE_H_
 #define NODE_H_
 
+#include "Parser_Export.h"
+
 #include <gumbo.h>
 #include <string>
 
 class CSelection;
 
-class CNode
+class PARSER_EXPORT CNode
 {
 	public:
 
