@@ -3,8 +3,9 @@
 
 #include "Utils_Export.h"
 
-#include <set>
+#include "Globals.h"
 
+#include <set>
 #include <iostream>
 using namespace std;
 
@@ -17,8 +18,8 @@ namespace GaveshakNS
 
 		void
 		PrintURLparts();				
-		static set<URL>
-		ExtractURLs(string htmlContent);
+		static set<string>
+		ExtractURLs(string html);
 
 	private:
 		URL();

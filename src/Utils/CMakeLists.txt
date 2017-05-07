@@ -91,13 +91,13 @@ include_directories(${CMAKE_SOURCE_DIR}/lib/boost)                   # Boost | p
 #         ${CMAKE_SOURCE_DIR}/bin)								    # <--this is out-file path
 ###############################################
 ## Boost
-SET(BOOST_PROGRAM_OPTIONS_RELEASE ${CMAKE_SOURCE_DIR}/lib/boost/stage/lib/boost_program_options-vc140-mt-1_64)    #Boost::Program_Options : Release
-SET(BOOST_PROGRAM_OPTIONS_DEBUG ${CMAKE_SOURCE_DIR}/lib/boost/stage/lib/boost_program_options-vc140-mt-gd-1_64)   #Boost::Program_Options : Debug
-SET(BOOST_PROGRAM_OPTIONS optimized ${BOOST_PROGRAM_OPTIONS_RELEASE} debug ${BOOST_PROGRAM_OPTIONS_DEBUG})
-TARGET_LINK_LIBRARIES(${MODULE_NAME} ${BOOST_PROGRAM_OPTIONS})
+SET(BOOST_REGEX_RELEASE ${CMAKE_SOURCE_DIR}/lib/boost/stage/lib/boost_regex-vc140-mt-1_64)    #Boost::Regex : Release
+SET(BOOST_REGEX_DEBUG ${CMAKE_SOURCE_DIR}/lib/boost/stage/lib/boost_regex-vc140-mt-gd-1_64)   #Boost::Regex : Debug
+SET(BOOST_REGEX optimized ${BOOST_REGEX_RELEASE} debug ${BOOST_REGEX_DEBUG})
+TARGET_LINK_LIBRARIES(${MODULE_NAME} ${BOOST_REGEX})
 
-SET(BOOST_LOG_RELEASE ${CMAKE_SOURCE_DIR}/lib/boost/stage/lib/boost_log-vc140-mt-1_64)    #Boost::Program_Options : Release
-SET(BOOST_LOG_DEBUG ${CMAKE_SOURCE_DIR}/lib/boost/stage/lib/boost_log-vc140-mt-gd-1_64)   #Boost::Program_Options : Debug
+SET(BOOST_LOG_RELEASE ${CMAKE_SOURCE_DIR}/lib/boost/stage/lib/boost_log-vc140-mt-1_64)    #Boost::log : Release
+SET(BOOST_LOG_DEBUG ${CMAKE_SOURCE_DIR}/lib/boost/stage/lib/boost_log-vc140-mt-gd-1_64)   #Boost::log : Debug
 SET(BOOST_LOG optimized ${BOOST_LOG_RELEASE} debug ${BOOST_LOG_DEBUG})
 TARGET_LINK_LIBRARIES(${MODULE_NAME} ${BOOST_LOG})
 ###############################################

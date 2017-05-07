@@ -168,7 +168,7 @@ void ParseCrawl  (variables_map &vm, options_description &desc, Fetcher &fetcher
 			set<string> links = FindLinks(pPageContent);			
 			pages.insert(links.begin(), links.end());
 			// Parse the page using regex
-			set<GaveshakNS::URL> linksURL = GaveshakNS::URL::ExtractURLs(page);
+			set<string> linksURL = GaveshakNS::URL::ExtractURLs(pPageContent);
 			pages.insert(linksURL.begin(), linksURL.end());
 		}
 		//cout << "Press any key to exit...";

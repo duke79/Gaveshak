@@ -16,4 +16,6 @@ static std::string     _GaveshakPath;
 #define LOG_F CUSTOM_LOG(fatal)
 static class Logger *        _Logger;
 
+#define BOOST_ALL_DYN_LINK
+
 #endif

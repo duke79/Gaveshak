@@ -34,9 +34,53 @@ void GaveshakNS::URL::PrintURLparts()
 	}	
 }
 
-set<GaveshakNS::URL>
-GaveshakNS::URL::ExtractURLs(string htmlContent)
+#include "boost\regex.hpp"
+set<string>
+GaveshakNS::URL::ExtractURLs(string html)
 {
-	set<URL> listURLs;
+	set<string> listURLs;
+	smatch result;
+	
+	
+	/*
+	string urlPattern = "https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&\/\/=]*)";	                    
+	std::regex urlRegEx(urlPattern);
+	bool isMatchFound = std::regex_search(html, result, urlRegEx);
+	*/
+
+	string urlPattern = "(?:(?:https?|ftp|file):\/\/|www\.|ftp\.)(?:\\([-A-Z0-9+&@#\/%=~_|$?!:,.]*\)|[-A-Z0-9+&@#\/%=~_|$?!:,.])*(?:\([-A-Z0-9+&@#\/%=~_|$?!:,.]*\)|[A-Z0-9+&@#\/%=~_|$])";
+	std::regex urlRegEx1(urlPattern);
+	bool isMatchFound = std::regex_search(html, result, urlRegEx1);
+
+	/*
+	urlPattern = "https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&\/\/=]*)";
+	std::regex urlRegEx2(urlPattern);	
+	isMatchFound = std::regex_search(html, result, urlRegEx2);
+	*/
+
+	/*
+	//boost::sregex_iterator it(html.begin(), html.end(), urlRegEx);
+	//boost::sregex_iterator end;
+	boost::regex_token_iterator<std::string::iterator> it{ html.begin(), html.end(), urlRegEx };
+	boost::regex_token_iterator<std::string::iterator> end;
+	for (; it != end; ++it)
+	{
+		//URL itURL(it->str());
+		//listURLs.insert(itURL);
+		listURLs.insert(it->str());
+	}
+	*/
+
+	
+	if (isMatchFound)
+	{
+		for (unsigned int i = 0; i < result.size(); i++)
+		{
+			cout << "WHAT " << i << " " << result[i] << endl;
+			cout << "WHAT " << i << " " << *result[i].first << endl;
+			cout << "WHAT " << i << " " << *result[i].second << endl;
+		}
+	}
+
 	return listURLs;
 }
