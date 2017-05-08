@@ -88,14 +88,15 @@ GaveshakNS::URL::ExtractURLs(string html)
 
 	std::string s = html;
 	//std::regex r("(?:(?:https?|ftp|file):\/\/|www\.|ftp\.)(?:\([-A-Z0-9+&@#\/%=~_|$?!:,.]*\)|[-A-Z0-9+&@#\/%=~_|$?!:,.])*(?:\([-A-Z0-9+&@#\/%=~_|$?!:,.]*\)|[A-Z0-9+&@#\/%=~_|$])");
-	std::regex r("(?:(?:https?|ftp|file)://)");
+	std::regex r("((((https?|ftp|file)://)?(www\\.|ftp\\.))(([-A-Za-z0-9+&@#\\/%=~_|$?!:,.]*)|[-A-Za-z0-9+&@#\\/%=~_|$?!:,.])*)(([-A-Za-z0-9+&@#\\/%=~_|$?!:,.]*)|[A-Za-z0-9+&@#\\/%=~_|$])");
 
 	for (std::sregex_iterator i = std::sregex_iterator(s.begin(), s.end(), r);
 		i != std::sregex_iterator();
 		++i)
 	{
 		std::smatch m = *i;
-		std::cout << m.str() << " at position " << m.position() << '\n';
+		//std::cout << m.str() << " at position " << m.position() << '\n';
+		listURLs.insert(m.str());
 	}
 
 	return listURLs;
