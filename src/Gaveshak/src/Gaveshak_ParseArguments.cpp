@@ -157,7 +157,7 @@ void ParseCrawl  (variables_map &vm, options_description &desc, Fetcher &fetcher
 			LOG_T << page << endl;			
 
 			fetcher.SetMaxFilesizeLimit(2000000); //smaller than 2 MBs
-			fetcher.SetMinSpeedLimit(2, 30000); // abort if for 2 seconds transfer rate is below 30kb/sec
+			fetcher.SetMinSpeedLimit(5, 30000); // abort if for 2 seconds transfer rate is below 30kb/sec
 			string pPageContent = fetcher.GetPage(page);
 			int pageContentSize = pPageContent.size();
 			//LOG_T << pPageContent;
@@ -168,7 +168,7 @@ void ParseCrawl  (variables_map &vm, options_description &desc, Fetcher &fetcher
 			set<string> links = FindLinks(pPageContent);			
 			pages.insert(links.begin(), links.end());
 			// Parse the page using regex
-			set<string> linksURL = GaveshakNS::URL::ExtractURLs(pPageContent);
+			set<string> linksURL = GaveshakNS::URL::ExtractURLs(pPageContent,page);
 			pages.insert(linksURL.begin(), linksURL.end());
 		}
 		//cout << "Press any key to exit...";

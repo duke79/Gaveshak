@@ -36,7 +36,7 @@ void GaveshakNS::URL::PrintURLparts()
 
 #include "boost\regex.hpp"
 set<string>
-GaveshakNS::URL::ExtractURLs(string html)
+GaveshakNS::URL::ExtractURLs(string html, string relativeRoot)
 {
 	set<string> listURLs;
 	smatch result;
@@ -96,8 +96,12 @@ GaveshakNS::URL::ExtractURLs(string html)
 	{
 		std::smatch m = *i;
 		//std::cout << m.str() << " at position " << m.position() << '\n';
+		unsigned counter = 0;
+		for (const auto& res : m) {						
+			std::cout << counter++ << ": " << res << std::endl;
+		}		
 		listURLs.insert(m.str());
-	}
+	}	
 
 	return listURLs;
 }
