@@ -164,6 +164,7 @@ void ParseCrawl  (variables_map &vm, options_description &desc, Fetcher &fetcher
 			string pPageContent = fetcher.GetPage(page);
 			int pageContentSize = pPageContent.size();
 
+			//TODO: Create an id (for filepath) map agaist every url
 			//Dump html content to file
 			{
 				if (dirpath == "")
@@ -172,7 +173,7 @@ void ParseCrawl  (variables_map &vm, options_description &desc, Fetcher &fetcher
 				string filepath = page;				
 				//Clean filepath				
 				filepath.erase(std::remove_if(filepath.begin(), filepath.end(), isLegal), filepath.end());
-				filepath = "C:\\temp\\" + filepath;
+				filepath = "C:\\temp\\" + filepath + ".html";
 
 				ofstream htmlDumpFile;
 				htmlDumpFile.open(filepath);
