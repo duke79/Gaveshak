@@ -22,21 +22,21 @@ void GaveshakNS::URL::PrintURLparts()
 	);
 	smatch url_match_result;
 
-	std::cout << "Checking: " << _url << std::endl;
+	LOG_T << "Checking: " << _url << std::endl;
 
 	if (regex_match(_url, url_match_result, url_regex)) {
 		for (const auto& res : url_match_result) {
-			std::cout << counter++ << ": " << res << std::endl;
+			LOG_T << counter++ << ": " << res << std::endl;
 		}
 	}
 	else {
-		std::cerr << "Malformed url." << std::endl;
+		LOG_E << "Malformed url." << std::endl;
 	}	
 }
 
 #include "boost\regex.hpp"
 set<string>
-GaveshakNS::URL::ExtractURLs(string html, string relativeRoot)
+GaveshakNS::URL::ExtractURLs(string html)
 {
 	set<string> listURLs;
 	smatch result;
@@ -87,21 +87,27 @@ GaveshakNS::URL::ExtractURLs(string html, string relativeRoot)
 	*/
 
 	std::string s = html;
-	//std::regex r("(?:(?:https?|ftp|file):\/\/|www\.|ftp\.)(?:\([-A-Z0-9+&@#\/%=~_|$?!:,.]*\)|[-A-Z0-9+&@#\/%=~_|$?!:,.])*(?:\([-A-Z0-9+&@#\/%=~_|$?!:,.]*\)|[A-Z0-9+&@#\/%=~_|$])");
-	std::regex r("((((https?|ftp|file):\\/\\/))(([-A-Za-z0-9+&@#%=~_|$?!:,]+)(\\.[-A-Za-z0-9+&@#%=~_|$?!:,]+)*)((\\/)((\\/)|[-A-Za-z0-9+&@#%=~_|$?!:\\/,.])*))(([-A-Za-z0-9+&@#%=~_|$?!:\\/,.]*)|[A-Za-z0-9+&@#%=\\/~_|$])*");
 
-	for (std::sregex_iterator i = std::sregex_iterator(s.begin(), s.end(), r);
-		i != std::sregex_iterator();
-		++i)
-	{
-		std::smatch m = *i;
-		//std::cout << m.str() << " at position " << m.position() << '\n';
-		unsigned counter = 0;
-		for (const auto& res : m) {						
-			std::cout << counter++ << ": " << res << std::endl;
-		}		
-		listURLs.insert(m.str());
-	}	
+	try {
+		//std::regex r("(?:(?:https?|ftp|file):\/\/|www\.|ftp\.)(?:\([-A-Z0-9+&@#\/%=~_|$?!:,.]*\)|[-A-Z0-9+&@#\/%=~_|$?!:,.])*(?:\([-A-Z0-9+&@#\/%=~_|$?!:,.]*\)|[A-Z0-9+&@#\/%=~_|$])");
+		std::regex r("((((https?|ftp|file):\\/\\/))(([-A-Za-z0-9+&@#%=~_|$?!:,]+)(\\.[-A-Za-z0-9+&@#%=~_|$?!:,]+)*)((\\/)((\\/)|[-A-Za-z0-9+&@#%=~_|$?!:\\/,.])*))(([-A-Za-z0-9+&@#%=~_|$?!:\\/,.]*)|[A-Za-z0-9+&@#%=\\/~_|$])*");
+
+		std::smatch m;
+		while (std::regex_search(s, m, r))
+		{
+			//std::cout << m.str() << " at position " << m.position() << '\n';
+			unsigned counter = 0;
+			for (const auto& res : m) {
+				LOG_T << counter++ << ": " << res << std::endl;
+			}
+			listURLs.insert(m.str());
+			s = m.suffix().str();
+		}
+	}
+	catch (std::regex_error& e) {
+		regex_constants::error_type errorType = e.code();
+		LOG_E << "regex exception happened.\n";
+	}
 
 	return listURLs;
 }

@@ -19,7 +19,7 @@ namespace GaveshakNS
 		void
 		PrintURLparts();				
 		static set<string>
-		ExtractURLs(string html, string relativeRoot="");
+		ExtractURLs(string html);
 
 	private:
 		URL();
