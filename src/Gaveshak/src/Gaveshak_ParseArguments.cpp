@@ -21,9 +21,8 @@ using namespace boost::program_options;
 void ParseHelp    (variables_map &vm, options_description &desc);
 void ParseOutput  (variables_map &vm, options_description &desc, string &filepath);
 void ParseProxy   (variables_map &vm, options_description &desc, Fetcher &fetcher);
-void ParseFetch   (variables_map &vm, options_description &desc, Fetcher &fetcher, string &filepath);
-void ParseCrawl   (variables_map &vm, options_description &desc, Fetcher &fetcher);
-set<string> FindLinks(string &pageContent);
+void ParseFetch   (variables_map &vm, options_description &desc, Fetcher &fetcher, string filepath);
+void ParseCrawl   (variables_map &vm, options_description &desc, Fetcher &fetcher, string dirpath);
 void ParseGoogle  (variables_map &vm, options_description &desc, Fetcher &fetcher);
 
 void Gaveshak::ParseArguments(int argc, char* argv[])
@@ -50,7 +49,7 @@ void Gaveshak::ParseArguments(int argc, char* argv[])
 	ParseOutput(vm, desc, outputFilepath);
 	ParseProxy(vm, desc, fetcher);
 	ParseFetch(vm, desc, fetcher, outputFilepath);
-	ParseCrawl(vm, desc, fetcher);
+	ParseCrawl(vm, desc, fetcher, "");
 	ParseGoogle(vm, desc, fetcher);
 }
 
@@ -97,7 +96,7 @@ void ParseProxy(variables_map &vm, options_description &desc, Fetcher &fetcher)
 * @use : --fetch <page1> <page2> ...
 * @desc: fetch the given pages
 */
-void ParseFetch  (variables_map &vm, options_description &desc, Fetcher &fetcher, string &filepath)
+void ParseFetch  (variables_map &vm, options_description &desc, Fetcher &fetcher, string filepath)
 {	
 	if (vm.count("fetch")) {
 		string page = vm["fetch"].as<string>();
@@ -129,11 +128,15 @@ void ParseFetch  (variables_map &vm, options_description &desc, Fetcher &fetcher
 #include "Node.h"
 #include <unordered_set>
 #include "URL.h"
+#include <fstream>
+bool isLegal(char c);
+set<string> FindLinks(string &pageContent);
+
 /*
 * @use : --crawl <page1> <page2> ...
 * @desc: Crawl the given pages
 */
-void ParseCrawl  (variables_map &vm, options_description &desc, Fetcher &fetcher)
+void ParseCrawl  (variables_map &vm, options_description &desc, Fetcher &fetcher, string dirpath)
 {	
 	if (vm.count("crawl")) {
 		vector<string> pagesVector = vm["crawl"].as< vector<string> >();
@@ -160,6 +163,23 @@ void ParseCrawl  (variables_map &vm, options_description &desc, Fetcher &fetcher
 			fetcher.SetMinSpeedLimit(5, 30000); // abort if for 2 seconds transfer rate is below 30kb/sec
 			string pPageContent = fetcher.GetPage(page);
 			int pageContentSize = pPageContent.size();
+
+			//Dump html content to file
+			{
+				if (dirpath == "")
+					dirpath = "C:\\temp\\";
+				
+				string filepath = page;				
+				//Clean filepath				
+				filepath.erase(std::remove_if(filepath.begin(), filepath.end(), isLegal), filepath.end());
+				filepath = "C:\\temp\\" + filepath;
+
+				ofstream htmlDumpFile;
+				htmlDumpFile.open(filepath);
+				htmlDumpFile << pPageContent;
+				htmlDumpFile.close();
+			}
+
 			//LOG_T << pPageContent;
 			
 			/** Find all the links
@@ -175,6 +195,21 @@ void ParseCrawl  (variables_map &vm, options_description &desc, Fetcher &fetcher
 		//cin.get(); //wait
 	}
 
+}
+
+bool isLegal(char c)
+{	
+
+	char legal[] = { 'A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z',
+		             'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 
+		             '1', '2', '3', '4', '5', '6', '7', '8', '9', '0',
+	                 '_','.'};
+	int len = sizeof(legal) / sizeof(char);
+
+	for (int i = 0; i < len; i++)
+		if (c == legal[i])
+			return false;
+	return true;
 }
 
 set<string> FindLinks(string &pageContent)
