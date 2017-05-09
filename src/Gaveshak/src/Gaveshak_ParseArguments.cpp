@@ -165,8 +165,8 @@ void ParseCrawl  (variables_map &vm, options_description &desc, Fetcher &fetcher
 			/** Find all the links
 			*/
 			// Parse the page using gumbo-query
-			set<string> links = FindLinks(pPageContent);			
-			pages.insert(links.begin(), links.end());
+			//set<string> links = FindLinks(pPageContent);			
+			//pages.insert(links.begin(), links.end());
 			// Parse the page using regex
 			set<string> linksURL = GaveshakNS::URL::ExtractURLs(pPageContent,page);
 			pages.insert(linksURL.begin(), linksURL.end());
