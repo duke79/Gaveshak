@@ -88,7 +88,7 @@ GaveshakNS::URL::ExtractURLs(string html, string relativeRoot)
 
 	std::string s = html;
 	//std::regex r("(?:(?:https?|ftp|file):\/\/|www\.|ftp\.)(?:\([-A-Z0-9+&@#\/%=~_|$?!:,.]*\)|[-A-Z0-9+&@#\/%=~_|$?!:,.])*(?:\([-A-Z0-9+&@#\/%=~_|$?!:,.]*\)|[A-Z0-9+&@#\/%=~_|$])");
-	std::regex r("((((https?|ftp|file)://)?(www\\.|ftp\\.))(([-A-Za-z0-9+&@#\\/%=~_|$?!:,.]*)|[-A-Za-z0-9+&@#\\/%=~_|$?!:,.])*)(([-A-Za-z0-9+&@#\\/%=~_|$?!:,.]*)|[A-Za-z0-9+&@#\\/%=~_|$])");
+	std::regex r("((((https?|ftp|file):\\/\\/))(([-A-Za-z0-9+&@#%=~_|$?!:,]+)(\\.[-A-Za-z0-9+&@#%=~_|$?!:,]+)*)((\\/)((\\/)|[-A-Za-z0-9+&@#%=~_|$?!:\\/,.])*))(([-A-Za-z0-9+&@#%=~_|$?!:\\/,.]*)|[A-Za-z0-9+&@#%=\\/~_|$])*");
 
 	for (std::sregex_iterator i = std::sregex_iterator(s.begin(), s.end(), r);
 		i != std::sregex_iterator();
