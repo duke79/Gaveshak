@@ -95,6 +95,15 @@ SET(BOOST_LOG optimized ${BOOST_LOG_RELEASE} debug ${BOOST_LOG_DEBUG})
 TARGET_LINK_LIBRARIES(${MODULE_NAME} ${BOOST_LOG})
 endif()
 
+## Boost.Regex
+if(${dependencyName} MATCHES Boost.Regex)
+include_directories(${CMAKE_SOURCE_DIR}/lib/boost)
+SET(BOOST_REGEX_RELEASE ${CMAKE_SOURCE_DIR}/lib/boost/stage/lib/boost_regex-vc140-mt-1_64)                        #Boost::Regex : Release
+SET(BOOST_REGEX_DEBUG ${CMAKE_SOURCE_DIR}/lib/boost/stage/lib/boost_regex-vc140-mt-gd-1_64)                       #Boost::Regex : Debug
+SET(BOOST_REGEX optimized ${BOOST_REGEX_RELEASE} debug ${BOOST_REGEX_DEBUG})
+TARGET_LINK_LIBRARIES(${MODULE_NAME} ${BOOST_REGEX})
+endif()
+
 ## shlwapi
 if(${dependencyName} MATCHES shlwapi)
 TARGET_LINK_LIBRARIES(${MODULE_NAME} shlwapi.lib)
