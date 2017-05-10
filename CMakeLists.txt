@@ -30,6 +30,17 @@ include_directories(./include)                                       # Current d
 include_directories(./src)                                           # Current directory src
 endfunction()
 
+
+function(AddDLL DLLName)
+file(GLOB MODULE_SRC
+    "include/*.h"
+    "src/*.cpp"
+)
+include_directories(./include)                                       # Current directory include
+include_directories(./src)                                           # Current directory src
+add_library(${DLLName} SHARED ${MODULE_SRC})
+endfunction()
+
 ######################################################################################################
 
 #DependsOn()
