@@ -1,6 +1,4 @@
-SET(MODULE_NAME Utils)
-
-AddDLL(${MODULE_NAME})
+BuildDLL()
 
 DependsOn(Boost.Log)
 DependsOn(Boost.Regex)

@@ -29,27 +29,35 @@ endfunction()
 
 ######################################################################################################
 
-#AddEXE()
-function(AddEXE EXEName FileWithMain)
+function(InitModuleName)
+get_filename_component(ThisDirectory ${CMAKE_CURRENT_SOURCE_DIR} NAME)
+string(REPLACE " " "_" ThisDirectory ${ThisDirectory})
+set(MODULE_NAME ${ThisDirectory} CACHE INTERNAL "")
+endfunction()
+
+#BuildEXE()
+function(BuildEXE FileWithMain)
+InitModuleName()
 file(GLOB MODULE_SRC
     "include/*.h"
     "src/*.cpp"
 )
-add_executable(${EXEName} ${FileWithMain} ${MODULE_SRC})
+add_executable(${MODULE_NAME} ${FileWithMain} ${MODULE_SRC})
 
 include_directories(./include)                                       # Current directory include
 include_directories(./src)                                           # Current directory src
 endfunction()
 
-#AddDLL()
-function(AddDLL DLLName)
+#BuildDLL()
+function(BuildDLL)
+InitModuleName()
 file(GLOB MODULE_SRC
     "include/*.h"
     "src/*.cpp"
 )
 include_directories(./include)                                       # Current directory include
 include_directories(./src)                                           # Current directory src
-add_library(${DLLName} SHARED ${MODULE_SRC})
+add_library(${MODULE_NAME} SHARED ${MODULE_SRC})
 endfunction()
 
 ######################################################################################################

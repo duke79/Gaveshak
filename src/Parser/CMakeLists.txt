@@ -1,6 +1,4 @@
-SET(MODULE_NAME Parser)
-
-AddDLL(${MODULE_NAME})
+BuildDLL()
 
 DependsOn(Utils)
 DependsOn(Boost.Log)

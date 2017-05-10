@@ -1,6 +1,4 @@
-SET(MODULE_NAME Gaveshak)
-
-AddEXE(${MODULE_NAME} src/main.cpp)
+BuildEXE(src/main.cpp)
 
 DependsOn(Utils)
 DependsOn(Fetcher)
