@@ -17,6 +17,17 @@ foreach( OUTPUTCONFIG ${CMAKE_CONFIGURATION_TYPES} )
 endforeach( OUTPUTCONFIG CMAKE_CONFIGURATION_TYPES )
 
 ######################################################################################################
+#CopyDir()
+function(CopyDir DirName)
+file(COPY "${DirName}" DESTINATION "${CMAKE_SOURCE_DIR}/bin")
+endfunction()
+
+#CopyFile()
+function(CopyFile FilePath)
+configure_file(${FilePath} ${CMAKE_SOURCE_DIR}/bin/${FilePath} @COPYONLY)
+endfunction()
+
+######################################################################################################
 
 #AddEXE()
 function(AddEXE EXEName FileWithMain)
@@ -30,7 +41,7 @@ include_directories(./include)                                       # Current d
 include_directories(./src)                                           # Current directory src
 endfunction()
 
-
+#AddDLL()
 function(AddDLL DLLName)
 file(GLOB MODULE_SRC
     "include/*.h"
@@ -96,6 +107,17 @@ SET(GUMBO_RELEASE ${CMAKE_SOURCE_DIR}/lib/gumbo/lib/gumbo_release)              
 SET(GUMBO_DEBUG ${CMAKE_SOURCE_DIR}/lib/gumbo/lib/gumbo_debug)                    #Gumbo : Debug
 SET(BOOST_LOG optimized ${GUMBO_RELEASE} debug ${GUMBO_DEBUG})
 TARGET_LINK_LIBRARIES(${MODULE_NAME} ${GUMBO_RELEASE})
+endif()
+
+## LibCurl
+if(${dependencyName} MATCHES LibCurl)
+include_directories(${CMAKE_SOURCE_DIR}/lib/libcURL/include)
+SET(CURLLIB ${CMAKE_SOURCE_DIR}/lib/libcURL/lib/libcurl)
+TARGET_LINK_LIBRARIES(${MODULE_NAME} ${CURLLIB})
+add_custom_command(TARGET ${MODULE_NAME} POST_BUILD					# Adds a post-build event to MyTest                  #copy dll to bin
+		COMMAND ${CMAKE_COMMAND} -E copy_if_different			    # which executes "cmake - E copy_if_different..."
+        "${CURLLIB}.dll"		                                    # <--this is in-file
+        ${CMAKE_SOURCE_DIR}/bin)								    # <--this is out-file path
 endif()
 
 endfunction()
