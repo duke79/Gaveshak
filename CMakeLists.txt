@@ -51,6 +51,7 @@ endfunction()
 #BuildDLL()
 function(BuildDLL)
 InitModuleName()
+set(MODULE_NAME lib${MODULE_NAME} CACHE INTERNAL "")
 file(GLOB MODULE_SRC
     "include/*.h"
     "src/*.cpp"
@@ -67,21 +68,21 @@ function(DependsOn dependencyName)
 ## Utils
 if(${dependencyName} MATCHES Utils)
 include_directories(${CMAKE_SOURCE_DIR}/src/Utils/include)
-SET(UTILS ${CMAKE_SOURCE_DIR}/bin/Utils)
+SET(UTILS ${CMAKE_SOURCE_DIR}/bin/libUtils)
 TARGET_LINK_LIBRARIES(${MODULE_NAME} ${UTILS})
 endif()
 
 ## Fetcher
 if(${dependencyName} MATCHES Fetcher)
 include_directories(${CMAKE_SOURCE_DIR}/src/Fetcher/include)
-SET(FETCHER ${CMAKE_SOURCE_DIR}/bin/Fetcher)
+SET(FETCHER ${CMAKE_SOURCE_DIR}/bin/libFetcher)
 TARGET_LINK_LIBRARIES(${MODULE_NAME} ${FETCHER})
 endif()
 
 ## Parser
 if(${dependencyName} MATCHES Parser)
 include_directories(${CMAKE_SOURCE_DIR}/src/Parser/include)
-SET(PARSER ${CMAKE_SOURCE_DIR}/bin/Parser)
+SET(PARSER ${CMAKE_SOURCE_DIR}/bin/libParser)
 TARGET_LINK_LIBRARIES(${MODULE_NAME} ${PARSER})
 endif()
 
