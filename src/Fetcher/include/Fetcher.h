@@ -1,5 +1,5 @@
-#ifndef UserAgent_H
-#define UserAgent_H
+#ifndef Fetcher_H
+#define Fetcher_H
 
 #include "Fetcher_Export.h"
 
