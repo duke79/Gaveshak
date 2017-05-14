@@ -41,12 +41,12 @@ Fetcher::SetPOSTFields(char* data)
 	// Set the postfield options
 	if (NULL != escapedURI) // If the URI escape worked
 	{
-		LOG_T << "UserAgent::SetPOSTFields: URI escaped : " << data;
+		//LOG_T << "UserAgent::SetPOSTFields: URI escaped : " << data;
 		_result = curl_easy_strerror(curl_easy_setopt(_pcURL, CURLOPT_POSTFIELDS, escapedURI));
 	}
 	else                    // If the URI escape didn't work
 	{
-		LOG_E << "UserAgent::SetPOSTFields: Couldn't URI escape : " << data;
+		//LOG_E << "UserAgent::SetPOSTFields: Couldn't URI escape : " << data;
 		_result = curl_easy_strerror(curl_easy_setopt(_pcURL, CURLOPT_POSTFIELDS, data));
 	}
 }
@@ -222,7 +222,7 @@ Fetcher::GetPage(string url)
 	_result = curl_easy_strerror(curl_easy_setopt(_pcURL, CURLOPT_URL, url.c_str()));
 	_result = curl_easy_strerror(rc=curl_easy_perform(_pcURL));	
 	if (CURLE_OK != rc)
-		LOG_E << _result;	
+		;//LOG_E << _result;	
 	string pPage;
 	if (_output.buffer)
 	{
@@ -322,7 +322,7 @@ Fetcher::InitCurlOptions()
 	}
 	else*/
 	{
-		LOG_W << "UserAgents list retrieval failed. Setting default string - \"Mozilla / 4.0\" ";
+		//LOG_W << "UserAgents list retrieval failed. Setting default string - \"Mozilla / 4.0\" ";
 		SetUserAgent("Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; BOLT/2.800) AppleWebKit/534.6 (KHTML, like Gecko) Version/5.0 Safari/534.6.3");
 	}
 

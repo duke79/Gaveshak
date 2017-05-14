@@ -86,6 +86,13 @@ SET(PARSER ${CMAKE_SOURCE_DIR}/bin/libParser)
 TARGET_LINK_LIBRARIES(${MODULE_NAME} ${PARSER})
 endif()
 
+## Crawler
+if(${dependencyName} MATCHES Crawler)
+include_directories(${CMAKE_SOURCE_DIR}/src/Crawler/include)
+SET(CRAWLER ${CMAKE_SOURCE_DIR}/bin/libCrawler)
+TARGET_LINK_LIBRARIES(${MODULE_NAME} ${CRAWLER})
+endif()
+
 ## Boost.ProgramOptions
 if(${dependencyName} MATCHES Boost.ProgramOptions)
 add_definitions(-DBOOST_ALL_DYN_LINK) # To force linking with boost dlls intead of libs
@@ -139,6 +146,17 @@ add_custom_command(TARGET ${MODULE_NAME} POST_BUILD					# Adds a post-build even
 		COMMAND ${CMAKE_COMMAND} -E copy_if_different			    # which executes "cmake - E copy_if_different..."
         "${CURLLIB}.dll"		                                    # <--this is in-file
         ${CMAKE_SOURCE_DIR}/bin)								    # <--this is out-file path
+endif()
+
+## OpenCL
+if(${dependencyName} MATCHES OpenCL)
+include_directories(${CMAKE_SOURCE_DIR}/lib/OpenCL/headers)
+SET(OPENCL ${CMAKE_SOURCE_DIR}/lib/OpenCL/bin/pthreadVC2)
+TARGET_LINK_LIBRARIES(${MODULE_NAME} ${OPENCL})
+add_custom_command(TARGET ${MODULE_NAME} POST_BUILD					# Adds a post-build event to MyTest
+		COMMAND ${CMAKE_COMMAND} -E copy_if_different			# which executes "cmake - E copy_if_different..."
+        "${OPENCL}.dll"     # <--this is in-file
+        ${CMAKE_SOURCE_DIR}/bin)								# <--this is out-file path
 endif()
 
 endfunction()

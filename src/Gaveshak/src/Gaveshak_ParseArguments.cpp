@@ -31,7 +31,7 @@ void Gaveshak::ParseArguments(int argc, char* argv[])
 		("output", value<string>(), "Output file")
 		("proxy", value<string>(), "Proxy server")
 		("fetch", value<string>(), "Fetch the given pages")
-		("crawl", value<vector<string>>(), "Crawl the given pages")
+		("crawl", value<vector<string>>()->multitoken(), "Crawl the given pages")
 		("google",value<string>(),"Google something")
 		;
 

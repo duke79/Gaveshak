@@ -18,14 +18,19 @@ namespace GaveshakNS
 		~URL();
 
 		void PrintURLparts();		
+		string GetBase();
 		string GetEncryption();
+		string GetSubDomain();
 		string GetDomain();
 		vector<string> GetPathSegments();
 		string GetCurrentDirPath();
+		string GetFileName();
 		string GetExtension();
 
 		static set<string>
 		ExtractURLs(string html, string url = "", bool DomainConstrained = false);
+		static bool
+		IsValidURL(string url);
 
 	private:
 		URL();
@@ -33,11 +38,14 @@ namespace GaveshakNS
 		void ParseURL();
 
 		string _url = "";
-		string _encryption = "";
+		string _base = "";
+		string _encryption = "";		
+		string _subDomain = "";
 		string _domain = "";
 		vector<string> _pathSegments;
 		string _currentDirPath = "";
 		string _extension = "";
+		string _filename = "";
 	};	
 }
 
