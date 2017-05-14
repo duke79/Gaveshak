@@ -29,3 +29,5 @@ DependsOn(shlwapi)
 SET(MODULE_NAME Fetcher)
 add_executable(${MODULE_NAME} src/main.cpp)         # Fetcher.exe
 DependsOn(Fetcher)
+DependsOn(Boost.Log)
+DependsOn(Boost.ProgramOptions)

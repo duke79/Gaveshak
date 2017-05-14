@@ -88,6 +88,7 @@ endif()
 
 ## Boost.ProgramOptions
 if(${dependencyName} MATCHES Boost.ProgramOptions)
+add_definitions(-DBOOST_ALL_DYN_LINK) # To force linking with boost dlls intead of libs
 include_directories(${CMAKE_SOURCE_DIR}/lib/boost)
 SET(BOOST_PROGRAM_OPTIONS_RELEASE ${CMAKE_SOURCE_DIR}/lib/boost/stage/lib/boost_program_options-vc140-mt-1_64)    #Boost::Program_Options : Release
 SET(BOOST_PROGRAM_OPTIONS_DEBUG ${CMAKE_SOURCE_DIR}/lib/boost/stage/lib/boost_program_options-vc140-mt-gd-1_64)   #Boost::Program_Options : Debug
@@ -97,6 +98,7 @@ endif()
 
 ## Boost.Log
 if(${dependencyName} MATCHES Boost.Log)
+add_definitions(-DBOOST_ALL_DYN_LINK) # To force linking with boost dlls intead of libs
 include_directories(${CMAKE_SOURCE_DIR}/lib/boost)
 SET(BOOST_LOG_RELEASE ${CMAKE_SOURCE_DIR}/lib/boost/stage/lib/boost_log-vc140-mt-1_64)                            #Boost::Log : Release
 SET(BOOST_LOG_DEBUG ${CMAKE_SOURCE_DIR}/lib/boost/stage/lib/boost_log-vc140-mt-gd-1_64)                           #Boost::Log : Debug
@@ -106,6 +108,7 @@ endif()
 
 ## Boost.Regex
 if(${dependencyName} MATCHES Boost.Regex)
+add_definitions(-DBOOST_ALL_DYN_LINK) # To force linking with boost dlls intead of libs
 include_directories(${CMAKE_SOURCE_DIR}/lib/boost)
 SET(BOOST_REGEX_RELEASE ${CMAKE_SOURCE_DIR}/lib/boost/stage/lib/boost_regex-vc140-mt-1_64)                        #Boost::Regex : Release
 SET(BOOST_REGEX_DEBUG ${CMAKE_SOURCE_DIR}/lib/boost/stage/lib/boost_regex-vc140-mt-gd-1_64)                       #Boost::Regex : Debug

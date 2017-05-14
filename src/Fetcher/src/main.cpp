@@ -9,10 +9,14 @@
 #include <fstream>
 #include <string>
 
+void ParseArguments(int argc, char *argv[]);
+
 int main(int argc, char* argv[]) {
 
 	if (argc < 2)
 		return -1;
+
+	ParseArguments(argc,argv);
 
 	string page = argv[1];
 	Fetcher fetcher;
@@ -37,4 +41,28 @@ int main(int argc, char* argv[]) {
 	}
 
 	return 0;
+}
+
+#include "boost/program_options.hpp"
+using namespace boost::program_options;
+void ParseArguments(int argc, char *argv[])
+{
+	// Declare the supported options.
+	options_description desc("Allowed options");
+	desc.add_options()
+		("help", "Produce help message")
+		("output", value<string>(), "Output file")
+		("proxy", value<string>(), "Proxy server")
+		("fetch", value<string>(), "Fetch the given pages")
+		("crawl", value<vector<string>>(), "Crawl the given pages")
+		("google", value<string>(), "Google something")
+		;
+
+	variables_map vm;
+	store(parse_command_line(argc, argv, desc), vm);
+	notify(vm);
+
+	if (vm.count("help")) {
+		cout << desc << "\n";
+	}
 }

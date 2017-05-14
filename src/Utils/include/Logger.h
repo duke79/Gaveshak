@@ -4,8 +4,6 @@
 #include "Utils_Export.h"
 #include "Globals.h"
 
-#define BOOST_ALL_DYN_LINK
-
 #include "boost/log/expressions.hpp"
 #include "boost/log/core.hpp"
 #include "boost/log/trivial.hpp"
@@ -38,8 +36,9 @@ static std::string path_to_filename(std::string path) {
 
 class UTILS_EXPORT Logger
 {
-	friend class Gaveshak;
 public:	
+	Logger();
+
 	void AddLogFile(string file);
 	void SetMinSeverity(boost::log::trivial::severity_level severity);
 	void EnableLogging(bool enable);
@@ -54,9 +53,7 @@ public:
 		auto attr = boost::log::attribute_cast<boost::log::attributes::mutable_constant<ValueType>>(boost::log::core::get()->get_thread_attributes()[name]);
 		attr.set(value);
 		return attr.get();
-	}	
-protected:
-	Logger(); // To prevent unwanted instantiation	
+	}		
 
 private:
 	boost::log::trivial::severity_level _minSeverity;

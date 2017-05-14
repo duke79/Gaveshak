@@ -7,7 +7,4 @@
 #include "Logger.h";
 
 static std::string     _GaveshakPath;
-
-#define BOOST_ALL_DYN_LINK
-
 #endif

@@ -3,9 +3,6 @@
 * Proprietary and confidential
 * Written by Pulkit Singh <pulkitsingh01@gmail.com>, April 2017
 **************************************************************/
-
-#define BOOST_ALL_DYN_LINK
-
 #include <Gaveshak.h>
 
 #include "Logger.h"
@@ -189,7 +186,7 @@ void ParseCrawl  (variables_map &vm, options_description &desc, Fetcher &fetcher
 			//set<string> links = FindLinks(pPageContent);			
 			//pages.insert(links.begin(), links.end());
 			// Parse the page using regex
-			set<string> linksURL = GaveshakNS::URL::ExtractURLs(pPageContent);
+			set<string> linksURL = GaveshakNS::URL::ExtractURLs(pPageContent,page,true);
 			pages.insert(linksURL.begin(), linksURL.end());
 		}
 		//cout << "Press any key to exit...";

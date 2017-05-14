@@ -15,15 +15,29 @@ namespace GaveshakNS
 	{
 	public:
 		URL(string url);
+		~URL();
 
-		void
-		PrintURLparts();				
+		void PrintURLparts();		
+		string GetEncryption();
+		string GetDomain();
+		vector<string> GetPathSegments();
+		string GetCurrentDirPath();
+		string GetExtension();
+
 		static set<string>
-		ExtractURLs(string html);
+		ExtractURLs(string html, string url = "", bool DomainConstrained = false);
 
 	private:
 		URL();
+		
+		void ParseURL();
+
 		string _url = "";
+		string _encryption = "";
+		string _domain = "";
+		vector<string> _pathSegments;
+		string _currentDirPath = "";
+		string _extension = "";
 	};	
 }
 
