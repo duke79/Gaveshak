@@ -33,7 +33,7 @@ Crawler::~Crawler()
 #include <pthread.h>
 pthread_mutex_t mutex_pages = PTHREAD_MUTEX_INITIALIZER;
 pthread_mutex_t mutex_nbrThreads = PTHREAD_MUTEX_INITIALIZER;
-int _nbrThreadsAlive;
+int _nbrThreadsAlive=0;
 
 
 #ifdef WIN32
@@ -49,11 +49,11 @@ void Crawler::Crawl(string url)
 	//_it = new std::unordered_set<std::string>::iterator();
 	_it = _pages.begin();	
 	
-	_nbrThreads = 0;
+	//_nbrThreadsAlive = 0;
 	for (; _it != _pages.end();)
 	{		
 		int nbrIt = std::distance(_pages.begin(),_it);
-		int nbrLinks = _pages.size();		
+		int nbrLinks = _pages.size();
 
 		pthread_t * thread = new pthread_t();		
 
@@ -70,18 +70,24 @@ void Crawler::Crawl(string url)
 			exit(-1);
 		}		
 
-		while ( ( nbrIt >= (nbrLinks-1) ) || (_nbrThreadsAlive >= _nbrThreads) )
+		/** Wait before it's okay to create new threads.
+		*/		
+		bool iteratorReachedEnd = (nbrIt == nbrLinks-1);
+		bool maxThreadCountReached = (_nbrThreadsAlive >= _nbrThreads);
+		while ((iteratorReachedEnd || maxThreadCountReached) && _nbrThreadsAlive>0)
 		{
 		#ifdef WIN32
-			Sleep(1000);
+					Sleep(1000);
 		#endif
 		#ifdef __linux__
-			sleep(5000);
-		#endif
-			nbrLinks = _pages.size();			
-			if (0 == _nbrThreadsAlive)
-				break;
-		}		
+					sleep(5000);
+		#endif			
+			nbrLinks = _pages.size();
+			iteratorReachedEnd = (nbrIt == nbrLinks - 1);
+
+			maxThreadCountReached = (_nbrThreadsAlive >= _nbrThreads);
+		}				
+				
 		_it++;
 		//ProcessOnePage();
 	}	
@@ -117,8 +123,21 @@ void Crawler::SetExtensions(vector<std::string> extensions)
 
 void Crawler::ProcessOnePage()
 {
+	string pageContent = FetchPage();
+	int pageContentSize = pageContent.size();
+
+	StoreFile(pageContent);
+	StoreWithCassandra(pageContent);
+
+	//LOG_T << pageContent;
+
+	ExtractURLs(pageContent);
+}
+
+string Crawler::FetchPage()
+{
 	//pthread_mutex_lock(&mutex_pages);				
-	string page = _page;
+	//string page = _page;
 	//pthread_mutex_unlock(&mutex_pages);
 	//LOG_T << std::distance(_pages.begin(), _it) << " of " << _pages.size();
 	//LOG_T << page << endl;
@@ -126,44 +145,62 @@ void Crawler::ProcessOnePage()
 	Fetcher fetcher;
 	fetcher.SetMaxFilesizeLimit(2000000); //smaller than 2 MBs
 	fetcher.SetMinSpeedLimit(5, 30000); // abort if for 2 seconds transfer rate is below 30kb/sec
-	string pPageContent = fetcher.GetPage(page);
-	int pageContentSize = pPageContent.size();
+	string pageContent = fetcher.GetPage(_page);
+	return pageContent;	
+}
 
-	string filepath = page;
-	GaveshakNS::URL url(page);
-	string extension = url.GetExtension();
-	if (extension == "")
-		extension = "html";	
-
-	//TODO: Create an id (for filepath) map agaist every url
-	//Dump html content to file
-	if(_extensions.size()==0 || std::find(_extensions.begin(), _extensions.end(), extension) != _extensions.end())
-	{				
-		//Clean filepath				
-		filepath.erase(std::remove_if(filepath.begin(), filepath.end(), Crawler::IsLegal), filepath.end());
-		if(extension=="html")
-			filepath = _outDir + filepath + "." + extension;
-		else
-			filepath = _outDir + filepath;
-
-		ofstream htmlDumpFile;
-		htmlDumpFile.open(filepath, ofstream::binary);
-		htmlDumpFile << pPageContent;
-		htmlDumpFile.close();		
-	}
-
-	//LOG_T << pPageContent;
-
+void Crawler::ExtractURLs(string pageContent)
+{
 	/** Find all the links
-	*/	
+	*/
 	// Parse the page using regex
-	set<string> linksURL = GaveshakNS::URL::ExtractURLs(pPageContent, page, _DomainConstrained);
+	set<string> linksURL = GaveshakNS::URL::ExtractURLs(pageContent, _page, _DomainConstrained);
 	if (linksURL.size())
 	{
 		pthread_mutex_lock(&mutex_pages);
 		_pages.insert(linksURL.begin(), linksURL.end());
 		pthread_mutex_unlock(&mutex_pages);
 	}
+}
+
+//TODO: Create an id (for filepath) map agaist every url
+/** Dump page content to file, only if
+*   either there is no extension filter set by Crawler::SetExtensions
+*   or the extension of current file matche an allowed extension
+*/
+void Crawler::StoreFile(string pageContent)
+{
+	string filepath = _page;
+	GaveshakNS::URL url(_page);
+	string extension = url.GetExtension();
+	if (extension == "")
+		extension = "html";
+
+	if (_extensions.size() == 0 || std::find(_extensions.begin(), _extensions.end(), extension) != _extensions.end())
+	{
+		//Clean filepath				
+		filepath.erase(std::remove_if(filepath.begin(), filepath.end(), Crawler::IsCharLegalForFilepath), filepath.end());
+		if (extension == "html")
+			filepath = _outDir + filepath + "." + extension;
+		else
+			filepath = _outDir + filepath;
+
+		ofstream htmlDumpFile;
+		htmlDumpFile.open(filepath, ofstream::binary);
+		htmlDumpFile << pageContent;
+		htmlDumpFile.close();
+	}
+}
+
+#include "CassandraUtil.h"
+void Crawler::StoreWithCassandra(std::string pageContent)
+{
+	CassandraUtil casUtil("192.168.0.101");
+	casUtil.SetKeySpace("Gaveshak");
+	string query = "select * from table1;";
+	casUtil.Query(query);
+	//string query = "SELECT release_version FROM system.local";
+	//casUtil.Query(query);	
 }
 
 void * Crawler::ThreadCallback(void *threadid)
@@ -181,7 +218,7 @@ void * Crawler::ThreadCallback(void *threadid)
 }
 
 
-bool Crawler::IsLegal(char c)
+bool Crawler::IsCharLegalForFilepath(char c)
 {
 
 	char legal[] = { 'A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z',

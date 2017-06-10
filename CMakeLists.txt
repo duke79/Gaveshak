@@ -159,6 +159,18 @@ add_custom_command(TARGET ${MODULE_NAME} POST_BUILD					# Adds a post-build even
         ${CMAKE_SOURCE_DIR}/bin)								# <--this is out-file path
 endif()
 
+## CASSANDRA
+if(${dependencyName} MATCHES Cassandra)
+include_directories(${CMAKE_SOURCE_DIR}/lib/cassandra_cpp_driver/include)
+SET(CASSANDRA ${CMAKE_SOURCE_DIR}/lib/cassandra_cpp_driver/lib/cassandra)
+TARGET_LINK_LIBRARIES(${MODULE_NAME} ${CASSANDRA})
+SET(CASSANDRA_DLL ${CMAKE_SOURCE_DIR}/lib/cassandra_cpp_driver/bin/cassandra.dll)
+add_custom_command(TARGET ${MODULE_NAME} POST_BUILD					# Adds a post-build event to MyTest
+		COMMAND ${CMAKE_COMMAND} -E copy_if_different			# which executes "cmake - E copy_if_different..."
+        "${CASSANDRA_DLL}"     # <--this is in-file
+        ${CMAKE_SOURCE_DIR}/bin)								# <--this is out-file path
+endif()
+
 endfunction()
 
 ######################################################################################################

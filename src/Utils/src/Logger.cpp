@@ -4,6 +4,7 @@
 * Written by Pulkit Singh <pulkitsingh01@gmail.com>, April 2017
 **************************************************************/
 
+using namespace std;
 #include "Logger.h"
 
 #include <boost/log/sources/severity_logger.hpp>
@@ -35,7 +36,7 @@ void Logger::AddLogFile(string file)
 			boost::log::expressions::stream
 			<< boost::log::expressions::format_date_time<boost::posix_time::ptime>("TimeStamp", "%Y-%m-%d_%H:%M:%S.%f")
 			<< ": <" << boost::log::trivial::severity << "> "
-			<< '[' << boost::log::expressions::attr<std::string>("File")
+			<< '[' << boost::log::expressions::attr<string>("File")
 			<< ':' << boost::log::expressions::attr<int>("Line") << "] "
 			<< boost::log::expressions::smessage
 			)

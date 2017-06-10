@@ -5,10 +5,11 @@
 **************************************************************/
 
 #include "iostream"
-#include <string>
+#include "string"
 #include "URL.h"
 #include "Logger.h"
-#include <vector>
+#include "vector"
+using namespace std;
 
 void ParseArguments(int argc, char *argv[]);
 

@@ -9,7 +9,6 @@
 #include "boost/log/trivial.hpp"
 #include <boost/log/attributes/mutable_constant.hpp>
 #include "iostream"
-using namespace std;
 #include <string>
 
 #define SEV_TRACE boost::log::trivial::trace
@@ -39,7 +38,7 @@ class UTILS_EXPORT Logger
 public:	
 	Logger();
 
-	void AddLogFile(string file);
+	void AddLogFile(std::string file);
 	void SetMinSeverity(boost::log::trivial::severity_level severity);
 	void EnableLogging(bool enable);
 	void EnableConsole(bool enable);

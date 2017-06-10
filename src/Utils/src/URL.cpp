@@ -4,6 +4,7 @@
 * Written by Pulkit Singh <pulkitsingh01@gmail.com>, April 2017
 **************************************************************/
 
+using namespace std;
 #include "URL.h"
 #include <regex>
 

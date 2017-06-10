@@ -32,8 +32,12 @@ public:
 	void SetExtensions(std::vector<std::string> extensions);
 	
 private:
-	static bool IsLegal(char c);
+	static bool IsCharLegalForFilepath(char c);
 	void ProcessOnePage();
+	std::string FetchPage();
+	void ExtractURLs(std::string pageContent);
+	void StoreFile(std::string pageContent);
+	void StoreWithCassandra(std::string pageContent);
 	static void * ThreadCallback(void *threadid);
 
 	std::unordered_set<std::string> _pages;	

@@ -5,47 +5,47 @@
 
 #include "Globals.h"
 
-#include <set>
-#include <iostream>
-using namespace std;
+#include "set"
+#include "iostream"
+#include "vector"
 
 namespace GaveshakNS
 {
 	class UTILS_EXPORT URL
 	{
 	public:
-		URL(string url);
+		URL(std::string url);
 		~URL();
 
 		void PrintURLparts();		
-		string GetBase();
-		string GetEncryption();
-		string GetSubDomain();
-		string GetDomain();
-		vector<string> GetPathSegments();
-		string GetCurrentDirPath();
-		string GetFileName();
-		string GetExtension();
+		std::string GetBase();
+		std::string GetEncryption();
+		std::string GetSubDomain();
+		std::string GetDomain();
+		std::vector<std::string> GetPathSegments();
+		std::string GetCurrentDirPath();
+		std::string GetFileName();
+		std::string GetExtension();
 
-		static set<string>
-		ExtractURLs(string html, string url = "", bool DomainConstrained = false);
+		static std::set<std::string>
+		ExtractURLs(std::string html, std::string url = "", bool DomainConstrained = false);
 		static bool
-		IsValidURL(string url);
+		IsValidURL(std::string url);
 
 	private:
 		URL();
 		
 		void ParseURL();
 
-		string _url = "";
-		string _base = "";
-		string _encryption = "";		
-		string _subDomain = "";
-		string _domain = "";
-		vector<string> _pathSegments;
-		string _currentDirPath = "";
-		string _extension = "";
-		string _filename = "";
+		std::string _url = "";
+		std::string _base = "";
+		std::string _encryption = "";
+		std::string _subDomain = "";
+		std::string _domain = "";
+		std::vector<std::string> _pathSegments;
+		std::string _currentDirPath = "";
+		std::string _extension = "";
+		std::string _filename = "";
 	};	
 }
 
