@@ -30,7 +30,7 @@ There are two ways to build cURL - cmake & nmake.
 mkdir build  
 cd build  
 cmake ..
-```  
+```
 
 * This builds a Visual Studio Solution. Open the solution and build it.
 * Following files are generated :
@@ -62,7 +62,7 @@ nmake is available in VS binaries. *(Microsoft Visual Studio 14.0\VC\bin)*
 * Download repository from https://github.com/google/gumbo-parser
 * Open VS project in  **/visualc** and build it to get *gumbo.lib*
 * Build two variants of **gumbo.lib**, ie. *debug & release* { gumbo_debug.lib & gumbo_release.lib }. Gumbo doesn't export symbols, so DLL is not usable
-  
+
 * Copy these libraries to Gaveshak/lib/gumbo/lib
 * Copy all .h files from gumbo/src to Gaveshak/lib/gumbo/include
 
@@ -90,21 +90,110 @@ nmake is available in VS binaries. *(Microsoft Visual Studio 14.0\VC\bin)*
 * Configuration
     * Open ports in firewall (22-62000). Inbound & Outbound both.
     * Cassandra.yaml
-	    * cluster_name must be same for all the nodes
-		* rpc_address & listen_address must be IP of current machine in network
-		* seeds must be a list of servers which provide info to a new node about cluster. (Maybe one or two machines which are treated as host must be enough.)
-	* Create a [cqlshrc](http://docs.datastax.com/en/cql/3.1/cql/cql_reference/cqlshrc.html) with hostname set to current IP.
-	* Add ../apache-cassandra/bin to path.
-	* Run the following command to test the nodes status -
-	`nodetool status`
-	* Multiple node clusters [reference1](http://docs.datastax.com/en/cassandra/2.1/cassandra/initialize/initializeSingleDS.html)
-	& [reference2](http://zcourts.com/2011/07/09/setting-up-a-multi-node-cassandra-cluster-on-a-single-windows-machine/#sthash.RfPaZpri.JizaCST6.dpbs) if required
+        * cluster_name must be same for all the nodes
+        * rpc_address & listen_address must be IP of current machine in network
+        * seeds must be a list of servers which provide info to a new node about cluster. (Maybe one or two machines which are treated as host must be enough.)
+    * Create a [cqlshrc](http://docs.datastax.com/en/cql/3.1/cql/cql_reference/cqlshrc.html) with hostname set to current IP.
+    * Add ../apache-cassandra/bin to path.
+    * Run the following command to test the nodes status -
+      `nodetool status`
+    * Multiple node clusters [reference1](http://docs.datastax.com/en/cassandra/2.1/cassandra/initialize/initializeSingleDS.html)
+      & [reference2](http://zcourts.com/2011/07/09/setting-up-a-multi-node-cassandra-cluster-on-a-single-windows-machine/#sthash.RfPaZpri.JizaCST6.dpbs) if required
+
+### 6. Testing
+#### Google Test
+Visual studio solution setting for **gtest** before building :
+| VS Setting          | Value                                 |
+| ------------------- | ------------------------------------- |
+| **Runtime Library** | ***Multi-threaded Debug DLL (/MDd)*** |
+
 
 ## Build
 In the root directory -
 ```
 mkdir build
 cd build
-cmake ..
+cmake .. -Wno-dev
 ```
 This builds a Visual Studio Solution. Open the solution and build it.
+
+# Planning & Information
+### ToDo
+* [Design/Architecture] (https://chromium.googlesource.com/chromium/src/+/master/styleguide/styleguide.md)
+* Testing
+  * GoogleTest : https://github.com/google/googletest
+* Smart Pointers
+  * http://www.chromium.org/developers/smart-pointer-guidelines	
+* What need for Globals.h?
+  * Although environment variables in future maybe!
+* EXE for modules
+  * Maybe useful in testing too
+  * Classes must be testing units, instead of modules
+    * http://softwaretestingfundamentals.com/unit-testing/
+* Fetcher
+  * Download in parts
+  * Cookies to be stored in local files?
+  * User agents sortable/categorized by platform and browser
+    * May use a list of classes/structs representing a useragent
+* Crawler
+  * Extract "text" from the page before storing. (or not? Google stores original pages!)
+
+## Crawler
+[*How to build a crawler-Quora*](https://www.quora.com/How-can-I-build-a-web-crawler-from-scratch)
+
+A bare minimum crawler needs at least these components:
+* **Extractor:** Minimal support to extract URL from page like anchor links.
+* **Duplicate Eliminator:** To make sure same content is not extracted twice unintentionally. Consider it as a set based data structure.
+* **URL Frontier:** To prioritize URL that has to fetched and parsed. Consider it as a priority queue
+* **Datastore:** To store retrieve pages and URL and other meta data.
+* [Min. Delay](https://en.wikipedia.org/robots.txt)
+* [Bot ID](https://www.quora.com/How-does-Google-crawl-Facebook-or-Quora-data)
+
+### Crawler - ToDo
+* Relative path
+* MyID?
+* Bad URLs problem?
+* Robots.txt
+* Frequent proxy switch
+* Switch user agents once in a while (use the famous ones)
+* URL parsing (domain, http/https/...?, file-extension ...)
+* Delay before fetching from same domain
+* Avoid traps
+* Max file size limit even if size is not know in advance
+
+## Scraping/Parsing
+
+## Indexing
+
+## Ranking
+
+## Query Processing
+
+## Search Algorithm
+* https://en.wikipedia.org/wiki/Inverted_index
+* https://en.wikipedia.org/wiki/Vector_space_model
+
+## Data management
+* **HBASE**
+* http://stackoverflow.com/questions/362956/what-database-does-google-use
+* https://en.wikipedia.org/wiki/Spanner_(database)
+* https://en.wikipedia.org/wiki/Bigtable
+* https://research.google.com/archive/bigtable.html
+
+## Distributed/Parallel Processing
+
+## Caching
+
+## Load balancing
+
+## Redundancy
+
+## Analytics
+
+## Links 
+* https://en.wikipedia.org/wiki/Semantic_search
+* https://www.quora.com/I-am-planning-to-make-a-small-scale-search-engine-on-my-local-system-from-where-should-I-start
+* https://www.quora.com/Will-Google-be-replaced-If-so-how
+* http://kameir.com/future-of-google/
+* https://www.quora.com/What-could-eventually-replace-Google-search
+* https://softwareengineering.stackexchange.com/questions/38324/how-would-you-implement-google-search
